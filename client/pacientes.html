@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Projeto.dev - Pacientes</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b
+                );
+
+            color: white;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.1);
+
+            background:
+                rgba(15,23,42,0.7);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 60px auto;
+
+            padding: 0 20px;
+        }
+
+        .card {
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,0.3);
+
+            overflow-x: auto;
+        }
+
+        .header-page {
+            margin-bottom: 30px;
+        }
+
+        .header-page h1 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+        }
+
+        .header-page p {
+            color: #94a3b8;
+        }
+
+        .barra {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+        #buscar {
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        #buscar:focus {
+            border-color: #38bdf8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 15px;
+
+            background: #0f172a;
+
+            color: #38bdf8;
+        }
+
+        td {
+            padding: 15px;
+
+            border-bottom:
+                1px solid #334155;
+
+            color: #e2e8f0;
+        }
+
+        .form-edicao {
+            margin-top: 30px;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            background: rgba(255,255,255,0.05);
+
+            border: 1px solid #334155;
+        }
+
+        .form-edicao h2 {
+            color: #38bdf8;
+
+            margin-bottom: 20px;
+        }
+
+        .campo-edicao {
+            margin-bottom: 18px;
+        }
+
+        .campo-edicao label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #e2e8f0;
+
+            font-weight: bold;
+        }
+
+        .campo-edicao input {
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            border: 1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 16px;
+        }
+
+        .campo-edicao select {
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            border: 1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        .campo-edicao select:focus {
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(56,189,248,0.15);
+        }
+
+        .campo-edicao select option {
+            background: #0f172a;
+
+            color: white;
+        }
+
+        .botoes-edicao {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+        .btn-salvar {
+            background: #22c55e;
+
+            color: white;
+        }
+
+        .btn-cancelar {
+            background: #334155;
+
+            color: white;
+        }
+
+        .btn-salvar,
+        .btn-cancelar {
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .btn-salvar:hover {
+            background: #16a34a;
+        }
+
+        .btn-cancelar:hover {
+            background: #475569;
+        }
+
+        .acoes {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-editar,
+        .btn-excluir {
+            padding: 8px 12px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .btn-editar {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .btn-editar:hover {
+            background: #0ea5e9;
+            transform: translateY(-1px);
+        }
+
+        .btn-excluir {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-excluir:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        tr:hover {
+            background:
+                rgba(255,255,255,0.04);
+        }
+
+        .mensagem {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #94a3b8;
+        }
+
+        .btn-excluir {
+            padding: 8px 12px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #ef4444;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .btn-excluir:hover {
+            background: #dc2626;
+
+            transform: translateY(-1px);
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 30px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.1);
+
+            color: #94a3b8;
+
+            margin-top: 80px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 20px;
+            }
+
+            nav {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Projeto.dev
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Início
+        </a>
+
+        <a href="/pacientes.html">
+            Pacientes
+        </a>
+
+        <a href="/paciente.html">
+            Cadastrar Paciente
+        </a>
+
+        <a href="/convenio">
+            Convênios
+        </a>
+
+        <a href="/atendimentos.html">
+            Atendimentos
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="header-page">
+
+                <h1>
+                    Pacientes cadastrados
+                </h1>
+
+                <p>
+                    Consulte os pacientes cadastrados no sistema.
+                </p>
+
+            </div>
+
+
+            <div class="barra">
+
+                <input
+                    type="text"
+                    id="buscar"
+                    placeholder="Digite o nome do paciente..."
+                >
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Paciente</th>
+
+                        <th>Data de nascimento</th>
+
+                        <th>Responsável</th>
+
+                        <th>Convênio</th>
+
+                        <th>Ações</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaPacientes">
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="mensagem"
+                        >
+                            Carregando pacientes...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+            <div
+                id="formEdicao"
+                class="form-edicao"
+                style="display: none;"
+            >
+
+                <h2>
+                    Editar paciente
+                </h2>
+
+                <input
+                    type="hidden"
+                    id="editarId"
+                >
+
+                <div class="campo-edicao">
+
+                    <label for="editarNome">
+                        Nome do paciente
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editarNome"
+                    >
+
+                </div>
+
+                <div class="campo-edicao">
+
+                    <label for="editarConvenio">
+                        Convênio
+                    </label>
+
+                    <select id="editarConvenio">
+
+                        <option value="">
+                            Carregando convênios...
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo-edicao">
+
+                    <label for="editarData">
+                        Data de nascimento
+                    </label>
+
+                    <input
+                        type="date"
+                        id="editarData"
+                    >
+
+                </div>
+
+
+                <div class="botoes-edicao">
+
+                    <button
+                        type="button"
+                        class="btn-salvar"
+                        onclick="salvarEdicao()"
+                    >
+                        Salvar alterações
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-cancelar"
+                        onclick="cancelarEdicao()"
+                    >
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Projeto de estudos •
+        HTML + CSS + JavaScript +
+        Node.js + MySQL
+    </p>
+
+</footer>
+
+
+<script>
+
+    const tabela =
+        document.getElementById(
+            "tabelaPacientes"
+        );
+
+    const campoBusca =
+        document.getElementById(
+            "buscar"
+        );
+
+
+    let pacientes = [];
+
+
+    // ==========================================
+    // BUSCAR PACIENTES NA API
+    // ==========================================
+
+    async function carregarPacientes() {
+
+        try {
+
+            const resposta =
+                await fetch(
+                    "/api/pacientes"
+                );
+
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    "Erro ao buscar pacientes."
+                );
+
+            }
+
+
+            pacientes =
+                await resposta.json();
+
+
+            mostrarPacientes(pacientes);
+
+
+        } catch (erro) {
+
+            console.error(erro);
+
+            tabela.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="mensagem"
+                    >
+                        Erro ao carregar pacientes.
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // MOSTRAR PACIENTES
+    // ==========================================
+
+    function mostrarPacientes(lista) {
+
+        tabela.innerHTML = "";
+
+
+        if (lista.length === 0) {
+
+            tabela.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="mensagem"
+                    >
+                        Nenhum paciente encontrado.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        lista.forEach(function(paciente) {
+
+            const linha =
+                document.createElement("tr");
+
+
+            const data =
+                paciente.data_nascimento
+                    ? new Date(
+                        paciente.data_nascimento
+                    ).toLocaleDateString(
+                        "pt-BR",
+                        {
+                            timeZone: "UTC"
+                        }
+                    )
+                    : "";
+
+
+            linha.innerHTML = `
+
+                <td>
+                    ${paciente.paciente_id}
+                </td>
+
+                <td>
+                    ${paciente.nome__completo_paciente}
+                </td>
+
+                <td>
+                    ${data}
+                </td>
+
+                <td>
+                    ${paciente.nome_responsavel}
+                </td>
+
+                <td>
+                    ${paciente.nome_convenio}
+                </td>
+
+                <td class="acoes">
+
+                    <button
+                        class="btn-editar"
+                        onclick="editarPaciente(${paciente.paciente_id})"
+                    >
+                        Editar
+                    </button>
+
+                    <button
+                        class="btn-excluir"
+                        onclick="excluirPaciente(${paciente.paciente_id})"
+                    >
+                        Excluir
+                    </button>
+
+                </td>
+
+            `;
+
+
+            tabela.appendChild(linha);
+
+        });
+
+    }
+
+    // EXCLUIR PACIENTES
+
+    async function excluirPaciente(id) {
+
+    const paciente =
+        pacientes.find(
+            function(p) {
+                return p.paciente_id === id;
+            }
+        );
+
+
+    if (!paciente) {
+        return;
+    }
+
+
+    const confirmar =
+        confirm(
+            `Deseja realmente excluir o paciente "${paciente.nome__completo_paciente}"?`
+        );
+
+
+    if (!confirmar) {
+        return;
+    }
+
+
+    try {
+
+        const resposta =
+            await fetch(
+                `/api/pacientes/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const resultado =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            alert(
+                resultado.erro ||
+                "Não foi possível excluir o paciente."
+            );
+
+            return;
+        }
+
+
+        alert(
+            resultado.mensagem ||
+            "Paciente excluído com sucesso!"
+        );
+
+
+        // Remove o paciente da lista local
+        pacientes =
+            pacientes.filter(
+                function(p) {
+                    return p.paciente_id !== id;
+                }
+            );
+
+
+        // Atualiza a tabela
+        mostrarPacientes(pacientes);
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao excluir paciente:",
+            erro
+        );
+
+        alert(
+            "Não foi possível conectar ao servidor."
+        );
+
+    }
+
+}
+
+//EDITAR PACIENTE
+
+async function editarPaciente(id) {
+
+    try {
+
+        const resposta =
+            await fetch(
+                `/api/pacientes/${id}`
+            );
+
+
+        const paciente =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            alert(
+                paciente.erro ||
+                "Não foi possível carregar o paciente."
+            );
+
+            return;
+        }
+
+
+        document.getElementById(
+            "editarId"
+        ).value =
+            paciente.paciente_id;
+
+
+        document.getElementById(
+            "editarNome"
+        ).value =
+            paciente.nome__completo_paciente;
+
+
+        document.getElementById(
+            "editarData"
+        ).value =
+            paciente.data_nascimento;
+
+        await carregarConveniosEdicao();
+
+            document.getElementById(
+                "editarConvenio"
+            ).value =
+                paciente.id_convenio
+
+
+        document.getElementById(
+            "formEdicao"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "formEdicao"
+        ).scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao buscar paciente:",
+            erro
+        );
+
+        alert(
+            "Não foi possível conectar ao servidor."
+        );
+
+    }
+
+}
+
+async function salvarEdicao() {
+
+    const id =
+        document.getElementById(
+            "editarId"
+        ).value;
+
+
+    const nome =
+        document.getElementById(
+            "editarNome"
+        ).value.trim();
+
+
+    const dataNascimento =
+        document.getElementById(
+            "editarData"
+        ).value;
+
+    const idConvenio =
+        document.getElementById(
+            "editarConvenio"
+        ).value;
+
+
+      if (!nome) {
+
+        alert(
+            "O nome do paciente é obrigatório."
+        );
+
+        return;
+    }
+
+
+    if (!dataNascimento) {
+
+        alert(
+            "A data de nascimento é obrigatória."
+        );
+
+        return;
+    }
+
+
+    if (!idConvenio) {
+
+        alert(
+            "O convênio é obrigatório."
+        );
+
+        return;
+    }
+
+
+    const dados = {
+
+        nomePaciente: nome,
+
+        dataNascimento:
+            dataNascimento,
+
+        idConvenio:
+            idConvenio
+
+    };
+
+
+    try {
+
+        const resposta =
+            await fetch(
+                `/api/pacientes/${id}`,
+                {
+
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify(dados)
+
+                }
+            );
+
+
+        const resultado =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            alert(
+                resultado.erro ||
+                "Não foi possível atualizar o paciente."
+            );
+
+            return;
+        }
+
+
+        alert(
+            resultado.mensagem ||
+            "Paciente atualizado com sucesso!"
+        );
+
+
+        document.getElementById(
+            "formEdicao"
+        ).style.display =
+            "none";
+
+
+        carregarPacientes();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao atualizar paciente:",
+            erro
+        );
+
+        alert(
+            "Não foi possível conectar ao servidor."
+        );
+
+    }
+
+}
+
+async function carregarConveniosEdicao() {
+
+    const selectConvenio =
+        document.getElementById(
+            "editarConvenio"
+        );
+
+    try {
+
+        const resposta =
+            await fetch(
+                "/api/convenios"
+            );
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro ao buscar convênios."
+            );
+
+        }
+
+        const convenios =
+            await resposta.json();
+
+
+        selectConvenio.innerHTML = `
+            <option value="">
+                Selecione o convênio
+            </option>
+        `;
+
+
+        convenios.forEach(
+            function(convenio) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+                option.value =
+                    convenio.convenio_id;
+
+                option.textContent =
+                    convenio.nome_convenio;
+
+                selectConvenio.appendChild(
+                    option
+                );
+
+            }
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar convênios:",
+            erro
+        );
+
+        selectConvenio.innerHTML = `
+            <option value="">
+                Erro ao carregar convênios
+            </option>
+        `;
+
+    }
+}
+
+function cancelarEdicao() {
+
+    document.getElementById(
+        "formEdicao"
+    ).style.display =
+        "none";
+
+}
+
+
+    // ==========================================
+    // BUSCA POR NOME
+    // ==========================================
+
+    campoBusca.addEventListener(
+        "input",
+        function() {
+
+            const texto =
+                campoBusca.value
+                    .toLowerCase()
+                    .trim();
+
+
+            const resultado =
+                pacientes.filter(
+                    function(paciente) {
+
+                        return paciente
+                            .nome__completo_paciente
+                            .toLowerCase()
+                            .includes(texto);
+
+                    }
+                );
+
+
+            mostrarPacientes(resultado);
+
+        }
+    );
+
+
+    // ==========================================
+    // INICIAR
+    // ==========================================
+
+    carregarPacientes();
+
+</script>
+
+</body>
+
+</html>

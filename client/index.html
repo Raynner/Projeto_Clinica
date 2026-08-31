@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Projeto.dev - Atendimento</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b
+                );
+
+            color: #ffffff;
+        }
+
+
+        /* ========================= */
+        /* NAVBAR */
+        /* ========================= */
+
+        header {
+
+            width: 100%;
+
+            padding: 20px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.1);
+
+            background:
+                rgba(15, 23, 42, 0.7);
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            color: #38bdf8;
+        }
+
+
+        nav {
+
+            display: flex;
+
+            gap: 25px;
+        }
+
+
+        nav a {
+
+            color: #cbd5e1;
+
+            text-decoration: none;
+
+            transition: 0.3s;
+        }
+
+
+        nav a:hover {
+
+            color: #38bdf8;
+        }
+
+
+        /* ========================= */
+        /* CONTAINER */
+        /* ========================= */
+
+        .container {
+
+            width: 100%;
+
+            max-width: 700px;
+
+            margin: 60px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* ========================= */
+        /* FORM CARD */
+        /* ========================= */
+
+        .form-card {
+
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,0.3);
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        .header-form {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .header-form h1 {
+
+            font-size: 32px;
+
+            margin-bottom: 10px;
+
+            color: #38bdf8;
+        }
+
+
+        .header-form p {
+
+            color: #94a3b8;
+
+            font-size: 15px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ========================= */
+        /* CAMPOS */
+        /* ========================= */
+
+        .form-group {
+
+            margin-bottom: 22px;
+            
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            color: #e2e8f0;
+        }
+
+
+        .form-group input,
+        .form-group select {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid #334155;
+
+            background: #0f172a ;
+
+            color: #ffffff;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+
+
+        .form-group input:focus,
+        .form-group select:focus {
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(56,189,248,0.15);
+
+        }
+
+
+        .form-group select option[value=""]  {
+
+            background: #0f172a ;
+
+            color: #ffffff;
+        }
+
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+            color: white;
+        }
+
+
+        /* ========================= */
+        /* BOTÕES */
+        /* ========================= */
+
+        .buttons {
+
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 30px;
+        }
+
+
+        button {
+
+            flex: 1;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .btn-cadastrar {
+
+            background: #38bdf8;
+
+            color: #0f172a;
+        }
+
+
+        .btn-cadastrar:hover {
+
+            background: #0ea5e9;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(56,189,248,0.3);
+        }
+
+
+        .btn-limpar {
+
+            background: #334155;
+
+            color: white;
+        }
+
+
+        .btn-limpar:hover {
+
+            background: #475569;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* ========================= */
+        /* MENSAGEM */
+        /* ========================= */
+
+        #mensagem {
+
+            margin-top: 25px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            display: none;
+        }
+
+
+        .sucesso {
+
+            display: block !important;
+
+            background:
+                rgba(34,197,94,0.15);
+
+            border:
+                1px solid #22c55e;
+
+            color: #4ade80;
+        }
+
+
+        .erro {
+
+            display: block !important;
+
+            background:
+                rgba(239,68,68,0.15);
+
+            border:
+                1px solid #ef4444;
+
+            color: #f87171;
+        }
+
+
+        /* ========================= */
+        /* FOOTER */
+        /* ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 30px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.1);
+
+            color: #94a3b8;
+
+            margin-top: 80px;
+        }
+
+
+        /* ========================= */
+        /* RESPONSIVO */
+        /* ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+
+                padding: 20px;
+            }
+
+
+            nav {
+
+                gap: 12px;
+
+                flex-wrap: wrap;
+
+                justify-content: flex-end;
+            }
+
+
+            nav a {
+
+                font-size: 14px;
+            }
+
+
+            .container {
+
+                margin-top: 30px;
+            }
+
+
+            .form-card {
+
+                padding: 30px 20px;
+            }
+
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .buttons {
+
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ========================= -->
+    <!-- NAVBAR -->
+    <!-- ========================= -->
+
+    <header>
+
+        <div class="logo">
+            Projeto.dev
+        </div>
+
+
+        <nav>
+
+
+            <a href="#formulario">
+                Atendimento
+            </a>
+
+
+            <a href="/paciente.html">
+                Cadastrar Paciente
+            </a>
+
+
+            <a href="/convenio.html">
+                Cadastrar Convênio
+            </a>
+
+            <a href="/pacientes.html">
+                Pacientes
+            </a>
+
+            <a href="/atendimentos.html">
+                Atendimentos
+            </a>
+
+
+        </nav>
+
+    </header>
+
+
+
+    <!-- ========================= -->
+    <!-- FORMULÁRIO -->
+    <!-- ========================= -->
+
+    <main>
+
+        <div class="container">
+
+            <div
+                class="form-card"
+                id="formulario"
+            >
+
+
+                <div class="header-form">
+
+                    <h1>
+                        Cadastro de Atendimento
+                    </h1>
+
+                    <p>
+                        Preencha os dados abaixo
+                        para registrar um novo atendimento.
+                    </p>
+
+                </div>
+
+
+
+                <form id="formAtendimento">
+
+
+                    <!-- DATA + HORÁRIO -->
+
+                    <div class="form-row">
+
+
+                        <div class="form-group">
+
+                            <label for="dataAtendimento">
+
+                                Data do atendimento
+
+                            </label>
+
+
+                            <input
+                                type="date"
+                                id="dataAtendimento"
+                                name="dataAtendimento"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <div class="form-group">
+
+                            <label for="horario">
+
+                                Horário
+
+                            </label>
+
+
+                            <input
+                                type="time"
+                                id="horario"
+                                name="horario"
+                                required
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+
+                    <!-- PACIENTE -->
+
+                    <div class="form-group">
+
+                        <label for="paciente">
+
+                            Paciente
+
+                        </label>
+
+
+                        <select
+                            id="paciente"
+                            name="paciente"
+                            required
+                        >
+
+                            <option value="">
+
+                                Carregando pacientes...
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- PRESENÇA -->
+
+                    <div class="form-group">
+
+                        <label for="presenca">
+
+                            Presença
+
+                        </label>
+
+
+                        <select
+                            id="presenca"
+                            name="presenca"
+                            required
+                        >
+
+                            <option value="">
+
+                                Selecione a presença
+
+                            </option>
+
+
+                            <option value="SIM">
+
+                                SIM
+
+                            </option>
+
+
+                            <option value="FALTOU">
+
+                                FALTOU
+
+                            </option>
+
+
+                            <option value="DESMARCOU">
+
+                                DESMARCOU
+
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <!-- BOTÕES -->
+
+                    <div class="buttons">
+
+
+                        <button
+                            type="submit"
+                            class="btn-cadastrar"
+                        >
+
+                            Cadastrar Atendimento
+
+                        </button>
+
+
+                        <button
+                            type="reset"
+                            class="btn-limpar"
+                        >
+
+                            Limpar
+
+                        </button>
+
+
+                    </div>
+
+
+                </form>
+
+
+
+                <div id="mensagem"></div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- ========================= -->
+    <!-- FOOTER -->
+    <!-- ========================= -->
+
+    <footer>
+
+        <p>
+            Projeto de estudos •
+            HTML + CSS + JavaScript +
+            Node.js + MySQL
+        </p>
+
+    </footer>
+
+
+
+    <!-- ========================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================= -->
+
+    <script>
+
+
+        const formulario =
+            document.getElementById(
+                "formAtendimento"
+            );
+
+
+        const mensagem =
+            document.getElementById(
+                "mensagem"
+            );
+
+
+        const selectPaciente =
+            document.getElementById(
+                "paciente"
+            );
+
+
+
+        // ======================================
+        // CARREGAR PACIENTES DO BANCO
+        // ======================================
+
+        async function carregarPacientes() {
+
+            try {
+
+                const resposta =
+                    await fetch("/api/pacientes");
+
+
+                if (!resposta.ok) {
+
+                    throw new Error(
+                        "Erro ao buscar pacientes."
+                    );
+
+                }
+
+
+                const pacientes =
+                    await resposta.json();
+
+
+                selectPaciente.innerHTML = `
+                    <option value="">
+                        Selecione o paciente
+                    </option>
+                
+                `;
+
+               
+
+
+                pacientes.forEach(
+                    function(paciente) {
+
+                        const option =
+                            document.createElement(
+                                "option"
+                            );
+
+
+                        option.value =
+                            paciente.paciente_id;
+
+
+                        option.textContent =
+                            paciente.nome__completo_paciente;
+
+
+                        selectPaciente.appendChild(
+                            option
+                        );
+
+                    }
+                );
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao carregar pacientes:",
+                    erro
+                );
+
+
+                selectPaciente.innerHTML = `
+
+                    <option value="">
+
+                        Erro ao carregar pacientes
+
+                    </option>
+
+                `;
+
+            }
+
+        }
+
+
+
+        carregarPacientes();
+
+
+
+        // ======================================
+        // CADASTRAR ATENDIMENTO
+        // ======================================
+
+        formulario.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const dados = {
+
+                    dataAtendimento:
+                        document.getElementById(
+                            "dataAtendimento"
+                        ).value,
+
+
+                    horario:
+                        document.getElementById(
+                            "horario"
+                        ).value,
+
+
+                    idPaciente:
+                        Number(document.getElementById(
+                            "paciente"
+                        ).value),
+
+
+                    presenca:
+                        document.getElementById(
+                            "presenca"
+                        ).value
+
+                };
+
+
+                try {
+
+
+                    const resposta =
+                        await fetch(
+                            "/api/atendimentos",
+                            {
+
+                                method: "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/json"
+
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        dados
+                                    )
+
+                            }
+                        );
+
+
+                    const resultado =
+                        await resposta.json();
+
+
+                    if (resposta.ok) {
+
+
+                        mensagem.textContent =
+                            resultado.mensagem;
+
+
+                        mensagem.className =
+                            "sucesso";
+
+
+                        formulario.reset();
+
+
+                    } else {
+
+
+                        mensagem.textContent =
+                            resultado.erro;
+
+
+                        mensagem.className =
+                            "erro";
+
+                    }
+
+
+                } catch (erro) {
+
+
+                    console.error(
+                        "Erro:",
+                        erro
+                    );
+
+
+                    mensagem.textContent =
+                        "Não foi possível conectar ao servidor.";
+
+
+                    mensagem.className =
+                        "erro";
+
+                }
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

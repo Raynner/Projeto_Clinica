@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro de Convênio</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        .form-card {
+            background: rgba(255, 255, 255, 0.07);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            border-radius: 20px;
+
+            padding: 40px;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #38bdf8;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-size: 15px;
+
+            font-weight: bold;
+
+            color: #e2e8f0;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border-radius: 10px;
+
+            border: 1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 16px;
+
+            outline: none;
+
+            transition: 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #38bdf8;
+
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+
+        .buttons {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .btn-cadastrar {
+            background: #38bdf8;
+
+            color: #0f172a;
+        }
+
+        .btn-cadastrar:hover {
+            background: #0ea5e9;
+
+            transform: translateY(-2px);
+        }
+
+        .btn-limpar {
+            background: #334155;
+
+            color: white;
+        }
+
+        .btn-limpar:hover {
+            background: #475569;
+
+            transform: translateY(-2px);
+        }
+
+        #mensagem {
+            margin-top: 25px;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            display: none;
+        }
+
+        .sucesso {
+            display: block !important;
+
+            background: rgba(34, 197, 94, 0.15);
+
+            border: 1px solid #22c55e;
+
+            color: #4ade80;
+        }
+
+        .erro {
+            display: block !important;
+
+            background: rgba(239, 68, 68, 0.15);
+
+            border: 1px solid #ef4444;
+
+            color: #f87171;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                padding: 15px;
+            }
+
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    
+
+    <div class="container">
+
+        <div class="form-card">
+
+            <div class="header">
+
+                <h1>Cadastro de Convênio</h1>
+
+                <p>
+                    Preencha os dados abaixo para cadastrar um novo convênio.
+                </p>
+
+            </div>
+
+
+            <form id="formConvenio">
+
+                <!-- Nome do Convênio -->
+
+                <div class="form-group">
+
+                    <label for="nomeConvenio">
+                        Nome do Convênio
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nomeConvenio"
+                        name="nomeConvenio"
+                        placeholder="Digite o nome do convênio"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Valor -->
+
+                <div class="form-group">
+
+                    <label for="valor">
+                        Valor
+                    </label>
+
+                    <input
+                        type="number"
+                        id="valor"
+                        name="valor"
+                        placeholder="Digite o valor"
+                        step="0.01"
+                        min="0"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Botões -->
+
+                <div class="buttons">
+
+                    <button
+                        type="submit"
+                        class="btn-cadastrar">
+                        Cadastrar
+                    </button>
+
+                    <button
+                        type="reset"
+                        class="btn-limpar">
+                        Limpar
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <!-- Mensagem -->
+
+            <div id="mensagem"></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const formulario = document.getElementById("formConvenio");
+
+        const mensagem = document.getElementById("mensagem");
+
+
+        formulario.addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+
+            const nome = document.getElementById("nomeConvenio").value;
+
+            const valor = document.getElementById("valor").value;
+
+
+            if (nome === "" || valor === "") {
+
+                mensagem.textContent =
+                    "Preencha todos os campos.";
+
+                mensagem.className = "erro";
+
+                return;
+            }
+
+            try {
+                
+
+            // Envia os dados para o backend
+            const resposta = await fetch("api/convenios", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    nomeConvenio: nome,
+                    valor: valor
+
+                })
+
+            });
+
+
+            // Recebe a resposta do servidor
+            const dados = await resposta.json();
+
+
+            if (resposta.ok) {
+
+                mensagem.textContent = dados.mensagem;
+                mensagem.className = "sucesso";
+
+                formulario.reset();
+
+            } else {
+
+                mensagem.textContent = dados.erro;
+                mensagem.className = "erro";
+
+            }
+
+
+        } catch (erro) {
+
+            //console.error("Erro:", erro);
+
+            mensagem.textContent =
+                "Não foi possível conectar ao servidor.";
+
+            mensagem.className = "erro";
+
+        }
+
+
+            mensagem.textContent =
+                `Convênio "${nome}" cadastrado com sucesso! Valor: R$ ${valor}`;
+
+            mensagem.className = "sucesso";
+
+
+            formulario.reset();
+
+        });
+
+    </script>
+
+</body>
+
+</html>
+
+
+

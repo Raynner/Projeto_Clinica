@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Projeto.dev - Pacientes</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b
+                );
+
+            color: white;
+        }
+
+        header {
+            width: 100%;
+            padding: 20px 8%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            border-bottom:
+                1px solid rgba(255,255,255,0.1);
+
+            background:
+                rgba(15,23,42,0.7);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #38bdf8;
+        }
+
+        nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1600px;
+
+            margin: 60px auto;
+
+            padding: 0 20px;
+        }
+
+        .card {
+            background:
+                rgba(255,255,255,0.07);
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,0.3);
+
+            overflow-x: auto;
+        }
+
+        .header-page {
+            margin-bottom: 30px;
+        }
+
+        .header-page h1 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+        }
+
+        .header-page p {
+            color: #94a3b8;
+        }
+
+        .barra {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+        #buscar {
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 16px;
+
+            outline: none;
+        }
+
+        #buscar:focus {
+            border-color: #38bdf8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 15px;
+
+            background: #0f172a;
+
+            color: #38bdf8;
+        }
+
+        td {
+            padding: 15px;
+
+            border-bottom:
+                1px solid #334155;
+
+            color: #e2e8f0;
+        }
+
+        tr:hover {
+            background:
+                rgba(255,255,255,0.04);
+        }
+
+        .mensagem {
+            text-align: center;
+
+            padding: 25px;
+
+            color: #94a3b8;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 30px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.1);
+
+            color: #94a3b8;
+
+            margin-top: 80px;
+        }
+
+        @media (max-width: 900px) {
+
+            .filtros {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .filtros {
+
+                grid-template-columns: 1fr;
+
+            }
+
+        }
+
+        @media (max-width: 1000px) {
+
+            .resumo {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .resumo {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .resumo {
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+            nav {
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+        .filtros {
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr auto;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+
+            align-items: end;
+        }
+
+
+        .filtro {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+
+        .filtro label {
+            font-size: 14px;
+
+            font-weight: bold;
+
+            color: #cbd5e1;
+        }
+
+
+        .filtro input,
+        .filtro select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            border: 1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+
+        .filtro input:focus,
+        .filtro select:focus {
+
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(56,189,248,0.15);
+        }
+
+
+        .filtro select option {
+
+            background: #0f172a;
+
+            color: white;
+        }
+
+
+        .btn-limpar-filtros {
+
+            padding: 12px 18px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #334155;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            white-space: nowrap;
+        }
+
+
+        .btn-limpar-filtros:hover {
+
+            background: #475569;
+
+            transform: translateY(-1px);
+        }
+
+        .resumo {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .card-resumo {
+            background: rgba(255, 255, 255, 0.07);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            min-height: 100px;
+
+            justify-content: center;
+        }
+
+
+        .card-resumo span {
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        .card-resumo strong {
+            color: #38bdf8;
+
+            font-size: 25px;
+        }
+
+        .acoes {
+            text-align: center;
+            white-space: nowrap;
+        }
+
+
+        .btn-excluir {
+            background: #ef4444;
+
+            color: white;
+
+            border: none;
+
+            padding: 8px 12px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        .btn-excluir:hover {
+            background: #dc2626;
+
+            transform: translateY(-1px);
+        }
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            z-index: 1000;
+
+            left: 0;
+            top: 0;
+
+            width: 100%;
+            height: 100%;
+
+            background: rgba(0, 0, 0, 0.7);
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+
+        .modal.ativo {
+            display: flex;
+        }
+
+
+        .modal-conteudo {
+            width: 100%;
+            max-width: 550px;
+
+            background: #1e293b;
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            border-radius: 16px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,0.5);
+        }
+
+
+        .modal-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .modal-header h2 {
+            color: #38bdf8;
+        }
+
+
+        .btn-fechar {
+            flex: none;
+
+            width: 35px;
+            height: 35px;
+
+            padding: 0;
+
+            background: transparent;
+
+            color: white;
+
+            font-size: 28px;
+
+            line-height: 1;
+        }
+
+
+        .btn-fechar:hover {
+            background: #334155;
+        }
+
+
+        .modal-botoes {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+
+        .btn-salvar-edicao {
+            background: #38bdf8;
+
+            color: #0f172a;
+        }
+
+
+        .btn-cancelar {
+            background: #334155;
+
+            color: white;
+        }
+
+        .btn-editar {
+            background: #38bdf8;
+
+            color: #0f172a;
+
+            border: none;
+
+            padding: 8px 12px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-right: 5px;
+
+            transition: 0.3s;
+        }
+
+
+        .btn-editar:hover {
+            background: #0ea5e9;
+
+            transform: translateY(-1px);
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        Projeto.dev
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Início
+        </a>
+
+        <a href="/pacientes.html">
+            Pacientes
+        </a>
+
+        <a href="/paciente.html">
+            Cadastrar Paciente
+        </a>
+
+        <a href="/convenio">
+            Convênios
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main>
+
+    <div class="container">
+
+        <div class="card">
+
+            <div class="header-page">
+
+                <h1>
+                    Planilha de Atendimento
+                </h1>
+
+                <p>
+                    Consulte os atendimentos cadastrados no sistema.
+                </p>
+
+            </div>
+
+
+            <div class="barra">
+
+               <div class="filtros">
+
+    <div class="filtro">
+
+        <label for="buscar">
+            Pesquisar
+        </label>
+
+        <input
+            type="text"
+            id="buscar"
+            placeholder="Paciente, responsável ou convênio..."
+        >
+
+    </div>
+
+
+    <div class="filtro">
+
+        <label for="dataFiltro">
+            Data
+        </label>
+
+        <input
+            type="date"
+            id="dataFiltro"
+        >
+
+    </div>
+
+
+    <div class="filtro">
+
+        <label for="presencaFiltro">
+            Presença
+        </label>
+
+        <select id="presencaFiltro">
+
+            <option value="">
+                Todas
+            </option>
+
+            <option value="SIM">
+                Presente
+            </option>
+
+            <option value="FALTOU">
+                Faltou
+            </option>
+
+            <option value="DESMARCOU">
+                Desmarcou
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <button
+        type="button"
+        id="limparFiltros"
+        class="btn-limpar-filtros"
+    >
+        Limpar filtros
+    </button>
+
+</div> 
+
+            </div>
+
+            <div class="resumo">
+
+                <div class="card-resumo">
+                    <span>Total de atendimentos</span>
+                    <strong id="totalAtendimentos">0</strong>
+                </div>
+
+                <div class="card-resumo">
+                    <span>Presentes</span>
+                    <strong id="totalPresentes">0</strong>
+                </div>
+
+                <div class="card-resumo">
+                    <span>Faltas</span>
+                    <strong id="totalFaltas">0</strong>
+                </div>
+
+                <div class="card-resumo">
+                    <span>Desmarcados</span>
+                    <strong id="totalDesmarcados">0</strong>
+                </div>
+
+                <div class="card-resumo">
+                    <span>Valor total</span>
+                    <strong id="valorTotal">R$ 0,00</strong>
+                </div>
+
+            </div>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Data</th>
+
+                        <th>Horário</th>
+
+                        <th>Paciente</th>
+
+                        <th>Responsável</th>
+
+                        <th>Convênio</th>
+
+                        <th>Presença</th>
+
+                        <th>Valor / atendimento</th>
+
+                        <th>Ações</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaAtendimentos">
+
+                    <tr>
+
+                        <td
+                            colspan="8"
+                            class="mensagem"
+                        >
+                            Carregando atendimentos...
+                        </td>
+
+                    </tr>
+
+                    <div id="modalEdicao" class="modal">
+
+                        <div class="modal-conteudo">
+
+                            <div class="modal-header">
+                                <h2>Editar Atendimento</h2>
+
+                                <button
+                                    type="button"
+                                    class="btn-fechar"
+                                    onclick="fecharModal()"
+                                >
+                                    ×
+                                </button>
+                            </div>
+
+
+                            <form id="formEdicao">
+
+                                <input
+                                    type="hidden"
+                                    id="editarId"
+                                >
+
+
+                                <div class="form-group">
+
+                                    <label for="editarData">
+                                        Data do atendimento
+                                    </label>
+
+                                    <input
+                                        type="date"
+                                        id="editarData"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="editarHorario">
+                                        Horário
+                                    </label>
+
+                                    <input
+                                        type="time"
+                                        id="editarHorario"
+                                        required
+                                    >
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="editarPaciente">
+                                        Paciente
+                                    </label>
+
+                                    <select
+                                        id="editarPaciente"
+                                        required
+                                    >
+                                    </select>
+
+                                </div>
+
+
+                                <div class="form-group">
+
+                                    <label for="editarPresenca">
+                                        Presença
+                                    </label>
+
+                                    <select
+                                        id="editarPresenca"
+                                        required
+                                    >
+
+                                        <option value="">
+                                            Selecione a presença
+                                        </option>
+
+                                        <option value="SIM">
+                                            SIM
+                                        </option>
+
+                                        <option value="FALTOU">
+                                            FALTOU
+                                        </option>
+
+                                        <option value="DESMARCOU">
+                                            DESMARCOU
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+
+                                <div class="modal-botoes">
+
+                                    <button
+                                        type="submit"
+                                        class="btn-salvar-edicao"
+                                    >
+                                        Salvar alterações
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn-cancelar"
+                                        onclick="fecharModal()"
+                                    >
+                                        Cancelar
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Projeto de estudos •
+        HTML + CSS + JavaScript +
+        Node.js + MySQL
+    </p>
+
+</footer>
+
+
+<script>
+
+    document
+    .getElementById("buscar")
+    .addEventListener(
+        "input",
+        aplicarFiltros
+    );
+
+
+document
+    .getElementById("dataFiltro")
+    .addEventListener(
+        "change",
+        aplicarFiltros
+    );
+
+
+document
+    .getElementById("presencaFiltro")
+    .addEventListener(
+        "change",
+        aplicarFiltros
+    );
+
+    document
+    .getElementById("limparFiltros")
+    .addEventListener(
+        "click",
+        function() {
+
+            document
+                .getElementById("buscar")
+                .value = "";
+
+
+            document
+                .getElementById("dataFiltro")
+                .value = "";
+
+
+            document
+                .getElementById("presencaFiltro")
+                .value = "";
+
+
+            mostrarAtendimentos(
+                atendimentos
+            );
+
+        }
+    );
+
+    document
+    .getElementById("formEdicao")
+    .addEventListener(
+        "submit",
+        async function(event) {
+
+            event.preventDefault();
+
+
+            const id =
+                document.getElementById(
+                    "editarId"
+                ).value;
+
+
+            const dados = {
+
+                dataAtendimento:
+                    document.getElementById(
+                        "editarData"
+                    ).value,
+
+                horario:
+                    document.getElementById(
+                        "editarHorario"
+                    ).value,
+
+                idPaciente:
+                    document.getElementById(
+                        "editarPaciente"
+                    ).value,
+
+                presenca:
+                    document.getElementById(
+                        "editarPresenca"
+                    ).value
+
+            };
+
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        `/api/atendimentos/${id}`,
+                        {
+                            method: "PUT",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    dados
+                                )
+                        }
+                    );
+
+
+                const resultado =
+                    await resposta.json();
+
+
+                if (!resposta.ok) {
+
+                    alert(
+                        resultado.erro ||
+                        "Erro ao atualizar atendimento."
+                    );
+
+                    return;
+                }
+
+
+                alert(
+                    resultado.mensagem ||
+                    "Atendimento atualizado com sucesso."
+                );
+
+
+                fecharModal();
+
+
+                await carregarAtendimentos();
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao atualizar atendimento:",
+                    erro
+                );
+
+
+                alert(
+                    "Não foi possível conectar ao servidor."
+                );
+
+            }
+
+        }
+    );
+
+    const tabela =
+        document.getElementById(
+            "tabelaAtendimentos"
+        );
+
+    const campoBusca =
+        document.getElementById(
+            "buscar"
+        );
+
+
+    // Guarda todos os atendimentos
+    let atendimentos = [];
+
+
+    // APLICAR FILTROS
+
+    function aplicarFiltros() {
+
+    const texto =
+        document
+            .getElementById("buscar")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const dataFiltro =
+        document
+            .getElementById("dataFiltro")
+            .value;
+
+
+    const presencaFiltro =
+        document
+            .getElementById("presencaFiltro")
+            .value;
+
+
+    const resultado =
+        atendimentos.filter(
+            function(atendimento) {
+
+
+                // ============================
+                // PESQUISA TEXTUAL
+                // ============================
+
+                const paciente =
+                    atendimento
+                        .nome__completo_paciente
+                        ?.toLowerCase() || "";
+
+
+                const responsavel =
+                    atendimento
+                        .nome_completo
+                        ?.toLowerCase() || "";
+
+
+                const convenio =
+                    atendimento
+                        .nome_convenio
+                        ?.toLowerCase() || "";
+
+
+                const presenca =
+                    atendimento
+                        .presenca
+                        ?.toLowerCase() || "";
+
+
+                const correspondeTexto =
+
+                    !texto ||
+
+                    paciente.includes(texto) ||
+
+                    responsavel.includes(texto) ||
+
+                    convenio.includes(texto) ||
+
+                    presenca.includes(texto);
+
+
+                // ============================
+                // FILTRO POR DATA
+                // ============================
+
+                const correspondeData =
+
+                    !dataFiltro ||
+
+                    atendimento.data_atendimento
+                        .toString()
+                        .substring(0, 10)
+                        === dataFiltro;
+
+
+                // ============================
+                // FILTRO POR PRESENÇA
+                // ============================
+
+                const correspondePresenca =
+
+                    !presencaFiltro ||
+
+                    atendimento.presenca
+                        .toUpperCase()
+                        === presencaFiltro;
+
+
+                return (
+
+                    correspondeTexto &&
+
+                    correspondeData &&
+
+                    correspondePresenca
+
+                );
+
+            }
+        );
+
+
+    mostrarAtendimentos(resultado);
+
+}
+
+
+    // ==========================================
+    // BUSCAR ATENDIMENTOS NA API
+    // ==========================================
+
+    async function carregarAtendimentos() {
+
+        try {
+
+            const resposta =
+                await fetch(
+                    "/api/atendimentos"
+                );
+
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    "Erro ao buscar atendimentos."
+                );
+
+            }
+
+
+            atendimentos =
+                await resposta.json();
+
+             listaAtendimentos = atendimentos;
+
+            mostrarAtendimentos(
+                atendimentos
+            );
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro:",
+                erro
+            );
+
+
+            tabela.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="mensagem"
+                    >
+                        Erro ao carregar atendimentos.
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // MOSTRAR ATENDIMENTOS
+    // ==========================================
+
+    function mostrarAtendimentos(lista) {
+
+        atualizarResumo(lista);
+
+        tabela.innerHTML = "";
+
+
+        if (lista.length === 0) {
+
+            tabela.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        class="mensagem"
+                    >
+                        Nenhum atendimento encontrado.
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        lista.forEach(
+            function(atendimento) {
+
+                const linha =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                // ----------------------------------
+                // DATA
+                // ----------------------------------
+
+                const data =
+                    atendimento.data_atendimento
+                        ? new Date(
+                            atendimento.data_atendimento
+                        ).toLocaleDateString(
+                            "pt-BR",
+                            {
+                                timeZone: "UTC"
+                            }
+                        )
+                        : "";
+
+
+                // ----------------------------------
+                // HORÁRIO
+                // ----------------------------------
+
+                const horario =
+                    atendimento.horario_atendimento
+                        ? atendimento.horario_atendimento
+                        : "";
+
+
+                // ----------------------------------
+                // VALOR
+                // ----------------------------------
+
+                const valor =
+                    atendimento.valor !== null &&
+                    atendimento.valor !== undefined
+                        ? Number(
+                            atendimento.valor
+                        ).toLocaleString(
+                            "pt-BR",
+                            {
+                                style: "currency",
+                                currency: "BRL"
+                            }
+                        )
+                        : "";
+
+
+                linha.innerHTML = `
+
+                    <td>
+                        ${data}
+                    </td>
+
+                    <td>
+                        ${horario}
+                    </td>
+
+                    <td>
+                        ${atendimento.nome__completo_paciente}
+                    </td>
+
+                    <td>
+                        ${atendimento.nome_completo}
+                    </td>
+
+                    <td>
+                        ${atendimento.nome_convenio}
+                    </td>
+
+                    <td>
+                        ${atendimento.presenca}
+                    </td>
+
+                    <td>
+                        ${valor}
+                    </td>
+
+                     <td class="acoes">
+
+                        <button
+                            type="button"
+                            class="btn-editar"
+                            onclick="abrirEdicao(${atendimento.atendimento_id})"
+                        >
+                            Editar
+                        </button>
+
+                        <button
+                            type="button"
+                            class="btn-excluir"
+                            onclick="excluirAtendimento(${atendimento.atendimento_id})"
+                        >
+                            Excluir
+                        </button>
+
+                    </td>
+
+                `;
+
+
+                tabela.appendChild(
+                    linha
+                );
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // BUSCAR ATENDIMENTOS
+    // ==========================================
+
+    campoBusca.addEventListener(
+        "input",
+        function() {
+
+            const texto =
+                campoBusca.value
+                    .trim()
+                    .toLowerCase();
+
+
+            // Se o campo estiver vazio,
+            // mostra todos os atendimentos
+
+            if (!texto) {
+
+                mostrarAtendimentos(
+                    atendimentos
+                );
+
+                return;
+
+            }
+
+
+            const resultado =
+                atendimentos.filter(
+                    function(atendimento) {
+
+
+                        // --------------------------
+                        // DATA FORMATADA
+                        // --------------------------
+
+                        const data =
+                            atendimento.data_atendimento
+                                ? new Date(
+                                    atendimento.data_atendimento
+                                ).toLocaleDateString(
+                                    "pt-BR",
+                                    {
+                                        timeZone: "UTC"
+                                    }
+                                )
+                                : "";
+
+
+                        // --------------------------
+                        // PACIENTE
+                        // --------------------------
+
+                        const paciente =
+                            atendimento.nome__completo_paciente
+                                ? atendimento
+                                    .nome__completo_paciente
+                                    .toLowerCase()
+                                : "";
+
+
+                        // --------------------------
+                        // RESPONSÁVEL
+                        // --------------------------
+
+                        const responsavel =
+                            atendimento.nome_completo
+                                ? atendimento
+                                    .nome_completo
+                                    .toLowerCase()
+                                : "";
+
+
+                        // --------------------------
+                        // CONVÊNIO
+                        // --------------------------
+
+                        const convenio =
+                            atendimento.nome_convenio
+                                ? atendimento
+                                    .nome_convenio
+                                    .toLowerCase()
+                                : "";
+
+
+                        // --------------------------
+                        // PRESENÇA
+                        // --------------------------
+
+                        const presenca =
+                            atendimento.presenca
+                                ? atendimento
+                                    .presenca
+                                    .toLowerCase()
+                                : "";
+
+
+                        // --------------------------
+                        // VERIFICAÇÃO
+                        // --------------------------
+
+                        return (
+
+                            data.includes(texto) ||
+
+                            paciente.includes(texto) ||
+
+                            responsavel.includes(texto) ||
+
+                            convenio.includes(texto) ||
+
+                            presenca.includes(texto)
+
+                        );
+
+                    }
+                );
+
+
+            mostrarAtendimentos(
+                resultado
+            );
+
+        }
+    );
+
+    //Atualizar resumo
+
+    function atualizarResumo(lista) {
+
+    const total =
+        lista.length;
+
+
+    const presentes =
+        lista.filter(
+            function(atendimento) {
+
+                return atendimento.presenca
+                    ?.toUpperCase() === "SIM";
+
+            }
+        ).length;
+
+
+    const faltas =
+        lista.filter(
+            function(atendimento) {
+
+                return atendimento.presenca
+                    ?.toUpperCase() === "FALTOU";
+
+            }
+        ).length;
+
+
+    const desmarcados =
+        lista.filter(
+            function(atendimento) {
+
+                return atendimento.presenca
+                    ?.toUpperCase() === "DESMARCOU";
+
+            }
+        ).length;
+
+
+    const valorTotal =
+        lista.reduce(
+            function(total, atendimento) {
+
+                return total +
+                    Number(atendimento.valor || 0);
+
+            },
+            0
+        );
+
+
+    document
+        .getElementById("totalAtendimentos")
+        .textContent = total;
+
+
+    document
+        .getElementById("totalPresentes")
+        .textContent = presentes;
+
+
+    document
+        .getElementById("totalFaltas")
+        .textContent = faltas;
+
+
+    document
+        .getElementById("totalDesmarcados")
+        .textContent = desmarcados;
+
+
+    document
+        .getElementById("valorTotal")
+        .textContent =
+            valorTotal.toLocaleString(
+                "pt-BR",
+                {
+                    style: "currency",
+                    currency: "BRL"
+                }
+            );
+
+}
+
+// EDIÇÃO DO ATENDIMENTO
+
+function abrirEdicao(id) {
+
+    const atendimento =
+        listaAtendimentos.find(
+            function(item) {
+
+                return Number(item.atendimento_id)
+                    === Number(id);
+
+            }
+        );
+
+
+    if (!atendimento) {
+
+        alert(
+            "Atendimento não encontrado."
+        );
+
+        return;
+    }
+
+
+    document.getElementById(
+        "editarId"
+    ).value =
+        atendimento.atendimento_id;
+
+
+    document.getElementById(
+        "editarData"
+    ).value =
+        atendimento.data_atendimento;
+
+
+    document.getElementById(
+        "editarHorario"
+    ).value =
+        atendimento.horario_atendimento;
+
+
+    document.getElementById(
+        "editarPresenca"
+    ).value =
+        atendimento.presenca;
+
+
+    carregarPacientesEdicao(
+        atendimento.id_paciente
+    );
+
+
+    document.getElementById(
+        "modalEdicao"
+    ).classList.add("ativo");
+}
+
+// ESCLUIR ATENDIMENTO
+
+async function excluirAtendimento(id) {
+
+    const confirmar =
+        confirm(
+            "Deseja realmente excluir este atendimento?"
+        );
+
+
+    if (!confirmar) {
+        return;
+    }
+
+
+    try {
+
+        const resposta =
+            await fetch(
+                `/api/atendimentos/${id}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const resultado =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            alert(
+                resultado.erro ||
+                "Não foi possível excluir o atendimento."
+            );
+
+            return;
+        }
+
+
+        alert(
+            resultado.mensagem
+        );
+
+
+        // Atualiza os dados da página
+        await carregarAtendimentos();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao excluir atendimento:",
+            erro
+        );
+
+
+        alert(
+            "Não foi possível conectar ao servidor."
+        );
+
+    }
+
+}
+
+//CARREGAR OS PACIENTE PARA EDIÇÃO
+
+async function carregarPacientesEdicao(
+    pacienteSelecionado
+) {
+
+    const select =
+        document.getElementById(
+            "editarPaciente"
+        );
+
+
+    try {
+
+        const resposta =
+            await fetch("/api/pacientes");
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro ao buscar pacientes."
+            );
+
+        }
+
+
+        const pacientes =
+            await resposta.json();
+
+
+        select.innerHTML = `
+            <option value="">
+                Selecione o paciente
+            </option>
+        `;
+
+
+        pacientes.forEach(
+            function(paciente) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    paciente.paciente_id;
+
+
+                option.textContent =
+                    paciente.nome__completo_paciente;
+
+
+                if (
+                    Number(
+                        paciente.paciente_id
+                    ) === Number(
+                        pacienteSelecionado
+                    )
+                ) {
+
+                    option.selected = true;
+
+                }
+
+
+                select.appendChild(option);
+
+            }
+        );
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar pacientes:",
+            erro
+        );
+
+        alert(
+            "Não foi possível carregar os pacientes."
+        );
+
+    }
+
+}
+
+function fecharModal() {
+
+    document
+        .getElementById("modalEdicao")
+        .classList.remove("ativo");
+
+}
+
+
+    // ==========================================
+    // INICIAR
+    // ==========================================
+
+    carregarAtendimentos();
+
+</script>
+
+</body>
+
+</html>

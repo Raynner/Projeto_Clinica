@@ -54,7 +54,6 @@ function buscarPorId(id) {
         const sql = `
             SELECT
                 a.atendimento_id,
-                a.atendimento_id,
                 a.data_atendimento,
                 a.horario_atendimento,
                 a.id_paciente,

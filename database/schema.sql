@@ -34,7 +34,17 @@ CREATE TABLE atendimento (
     FOREIGN KEY (id_paciente) REFERENCES pacientes(paciente_id)
 );
 
-CREATE OR REPLACE vw_atendimentos AS
+CREATE TABLE usuarios (
+	usuario_id INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE,
+    criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (usuario_id)
+);
+
+CREATE OR REPLACE VIEW vw_atendimentos AS
 SELECT
     aten.atendimento_id AS 'id',
     aten.data_atendimento AS 'Data',
@@ -55,3 +65,6 @@ JOIN convenio con
 ORDER BY
     aten.data_atendimento DESC,
     aten.horario_atendimento DESC;
+
+
+    

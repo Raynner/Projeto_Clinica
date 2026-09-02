@@ -2,6 +2,12 @@ const bcrypt = require("bcrypt");
 
 const usuarioRepository = require("../repositories/usuarioRepository");
 
+// LISTAR USUÁRIOS
+
+async function listarUsuarios() {
+    return await usuarioRepository.buscarTodos();
+}
+
 async function cadastrarUsuario(dados) {
     const { nome, email, senha } = dados;
 
@@ -56,7 +62,40 @@ async function cadastrarUsuario(dados) {
     };
 }
 
-async function buscarUsuarioPorId(id) {
+async function buscarUsuarioPorId(id, usuario_id) {
+
+    if (!/^\d+$/.test(String(id))) {
+
+        const erro = new Error(
+            "O ID do usuário deve ser numérico."
+        );
+
+        erro.status = 400;
+
+        throw erro;
+    }
+
+    if (!usuario_id) {
+
+        const erro = new Error(
+            "Usuário autenticado é obrigatório."
+        );
+
+        erro.status = 401;
+
+        throw erro;
+    }
+
+    if (Number(id) !== Number(usuario_id)) {
+
+        const erro = new Error(
+            "Usuário não encontrado."
+        );
+
+        erro.status = 404;
+
+        throw erro;
+    }
     
     const usuario = await usuarioRepository.buscarPorId(id);
 
@@ -71,7 +110,50 @@ async function buscarUsuarioPorId(id) {
     return usuario;
 }
 
+// ATUALIZAR STATUS DO USUÁRIO
+
+async function atualizarStatusUsuario(id, ativo, usuarioAutenticado) {
+    if (!/^\d+$/.test(String(id))) {
+        const erro = new Error("O ID do usuário deve ser numérico.");
+        erro.status = 400;
+        throw erro;
+    }
+
+    if (typeof ativo !== "boolean") {
+        const erro = new Error("O campo ativo deve ser verdadeiro ou falso.");
+        erro.status = 400;
+        throw erro;
+    }
+
+    const usuario = await usuarioRepository.buscarPorId(id);
+
+    if (!usuario) {
+        const erro = new Error("Usuário não encontrado.");
+        erro.status = 404;
+        throw erro;
+    }
+
+    if (Number(id) === Number(usuarioAutenticado.usuario_id)) {
+        const erro = new Error(
+            "O administrador não pode desativar a própria conta."
+        );
+        erro.status = 400;
+        throw erro;
+    }
+
+    const resultado =
+        await usuarioRepository.atualizarStatus(id, ativo);
+
+    return {
+        usuario_id: Number(id),
+        ativo,
+        registros_alterados: resultado.affectedRows
+    };
+}
+
 module. exports = {
     cadastrarUsuario,
-    buscarUsuarioPorId
+    buscarUsuarioPorId,
+    listarUsuarios,
+    atualizarStatusUsuario
 };

@@ -11,7 +11,9 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Projeto.dev - Atendimento</title>
+    <title>Projeto.dev - Cadastro de Atendimento</title>
+
+    <link rel="stylesheet" href="/css/navbar.css">
 
 
     <style>
@@ -36,66 +38,6 @@
                 );
 
             color: #ffffff;
-        }
-
-
-        /* ========================= */
-        /* NAVBAR */
-        /* ========================= */
-
-        header {
-
-            width: 100%;
-
-            padding: 20px 8%;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            border-bottom:
-                1px solid rgba(255,255,255,0.1);
-
-            background:
-                rgba(15, 23, 42, 0.7);
-
-            backdrop-filter: blur(10px);
-        }
-
-
-        .logo {
-
-            font-size: 24px;
-
-            font-weight: bold;
-
-            color: #38bdf8;
-        }
-
-
-        nav {
-
-            display: flex;
-
-            gap: 25px;
-        }
-
-
-        nav a {
-
-            color: #cbd5e1;
-
-            text-decoration: none;
-
-            transition: 0.3s;
-        }
-
-
-        nav a:hover {
-
-            color: #38bdf8;
         }
 
 
@@ -214,7 +156,6 @@
 
             transition: 0.3s;
         }
-
 
 
         .form-group input:focus,
@@ -390,27 +331,6 @@
 
         @media (max-width: 700px) {
 
-            header {
-
-                padding: 20px;
-            }
-
-
-            nav {
-
-                gap: 12px;
-
-                flex-wrap: wrap;
-
-                justify-content: flex-end;
-            }
-
-
-            nav a {
-
-                font-size: 14px;
-            }
-
 
             .container {
 
@@ -449,43 +369,7 @@
     <!-- NAVBAR -->
     <!-- ========================= -->
 
-    <header>
-
-        <div class="logo">
-            Projeto.dev
-        </div>
-
-
-        <nav>
-
-
-            <a href="#formulario">
-                Atendimento
-            </a>
-
-
-            <a href="/paciente.html">
-                Cadastrar Paciente
-            </a>
-
-
-            <a href="/convenio.html">
-                Cadastrar Convênio
-            </a>
-
-            <a href="/pacientes.html">
-                Pacientes
-            </a>
-
-            <a href="/atendimentos.html">
-                Atendimentos
-            </a>
-
-
-        </nav>
-
-    </header>
-
+    <div id="navbar"></div>
 
 
     <!-- ========================= -->
@@ -516,7 +400,6 @@
                 </div>
 
 
-
                 <form id="formAtendimento">
 
 
@@ -544,7 +427,6 @@
                         </div>
 
 
-
                         <div class="form-group">
 
                             <label for="horario">
@@ -565,7 +447,6 @@
 
 
                     </div>
-
 
 
                     <!-- PACIENTE -->
@@ -594,7 +475,6 @@
                         </select>
 
                     </div>
-
 
 
                     <!-- PRESENÇA -->
@@ -646,7 +526,6 @@
                     </div>
 
 
-
                     <!-- BOTÕES -->
 
                     <div class="buttons">
@@ -678,7 +557,6 @@
                 </form>
 
 
-
                 <div id="mensagem"></div>
 
 
@@ -687,7 +565,6 @@
         </div>
 
     </main>
-
 
 
     <!-- ========================= -->
@@ -705,13 +582,16 @@
     </footer>
 
 
-
     <!-- ========================= -->
     <!-- JAVASCRIPT -->
     <!-- ========================= -->
 
+    <script src="/js/auth.js"></script>
+    <script src="/js/navbar.js"></script>
+
     <script>
 
+        protegerPagina();
 
         const formulario =
             document.getElementById(
@@ -731,7 +611,6 @@
             );
 
 
-
         // ======================================
         // CARREGAR PACIENTES DO BANCO
         // ======================================
@@ -741,8 +620,12 @@
             try {
 
                 const resposta =
-                    await fetch("/api/pacientes");
+                    await fetchAutenticado("/api/pacientes");
 
+
+                if (!resposta) {
+                    return;
+                }
 
                 if (!resposta.ok) {
 
@@ -815,9 +698,7 @@
         }
 
 
-
         carregarPacientes();
-
 
 
         // ======================================
@@ -833,19 +714,19 @@
 
                 const dados = {
 
-                    dataAtendimento:
+                    data_atendimento:
                         document.getElementById(
                             "dataAtendimento"
                         ).value,
 
 
-                    horario:
+                    horario_atendimento:
                         document.getElementById(
                             "horario"
                         ).value,
 
 
-                    idPaciente:
+                    id_paciente:
                         Number(document.getElementById(
                             "paciente"
                         ).value),
@@ -863,7 +744,7 @@
 
 
                     const resposta =
-                        await fetch(
+                        await fetchAutenticado(
                             "/api/atendimentos",
                             {
 
@@ -885,6 +766,10 @@
                         );
 
 
+                    if (!resposta) {
+                        return;
+                    }
+
                     const resultado =
                         await resposta.json();
 
@@ -893,7 +778,8 @@
 
 
                         mensagem.textContent =
-                            resultado.mensagem;
+                            resultado.mensagem ||
+                            "Atendimento cadastrado com sucesso.";
 
 
                         mensagem.className =
@@ -907,7 +793,8 @@
 
 
                         mensagem.textContent =
-                            resultado.erro;
+                            resultado.erro ||
+                            "Não foi possível cadastrar o atendimento.";
 
 
                         mensagem.className =

@@ -10,7 +10,9 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Projeto.dev - Pacientes</title>
+    <title>Projeto.dev - Atendimentos</title>
+
+    <link rel="stylesheet" href="/css/navbar.css">
 
     <style>
 
@@ -32,43 +34,6 @@
                 );
 
             color: white;
-        }
-
-        header {
-            width: 100%;
-            padding: 20px 8%;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            border-bottom:
-                1px solid rgba(255,255,255,0.1);
-
-            background:
-                rgba(15,23,42,0.7);
-
-            backdrop-filter: blur(10px);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #38bdf8;
-        }
-
-        nav {
-            display: flex;
-            gap: 25px;
-        }
-
-        nav a {
-            color: #cbd5e1;
-            text-decoration: none;
-        }
-
-        nav a:hover {
-            color: #38bdf8;
         }
 
         .container {
@@ -242,16 +207,6 @@
             }
 
         }
-
-            nav {
-                gap: 12px;
-                flex-wrap: wrap;
-                justify-content: flex-end;
-            }
-
-            nav a {
-                font-size: 14px;
-            }
 
             .container {
                 margin-top: 30px;
@@ -578,39 +533,16 @@
             transform: translateY(-1px);
         }
 
+        @media (max-width: 600px) {
+        }
+
     </style>
 
 </head>
 
 <body>
 
-<header>
-
-    <div class="logo">
-        Projeto.dev
-    </div>
-
-    <nav>
-
-        <a href="/">
-            Início
-        </a>
-
-        <a href="/pacientes.html">
-            Pacientes
-        </a>
-
-        <a href="/paciente.html">
-            Cadastrar Paciente
-        </a>
-
-        <a href="/convenio">
-            Convênios
-        </a>
-
-    </nav>
-
-</header>
+    <div id="navbar"></div>
 
 
 <main>
@@ -756,6 +688,13 @@
 
                         <th>Valor / atendimento</th>
 
+                        <th
+                            id="colunaFisioterapeuta"
+                            style="display: none;"
+                        >
+                            Fisioterapeuta
+                        </th>
+
                         <th>Ações</th>
 
                     </tr>
@@ -767,7 +706,7 @@
                     <tr>
 
                         <td
-                            colspan="8"
+                            colspan="9"
                             class="mensagem"
                         >
                             Carregando atendimentos...
@@ -775,7 +714,13 @@
 
                     </tr>
 
-                    <div id="modalEdicao" class="modal">
+                    
+
+                </tbody>
+
+            </table>
+
+            <div id="modalEdicao" class="modal">
 
                         <div class="modal-conteudo">
 
@@ -902,10 +847,6 @@
 
                     </div>
 
-                </tbody>
-
-            </table>
-
         </div>
 
     </div>
@@ -923,8 +864,32 @@
 
 </footer>
 
+<script src="/js/auth.js"></script>
+<script src="/js/navbar.js"></script>
 
 <script>
+
+    protegerPagina();
+
+    const usuarioLogado =
+        getUsuarioLogado();
+
+        const colunaFisioterapeuta =
+            document.getElementById(
+                "colunaFisioterapeuta"
+            );
+
+        if (
+            usuarioLogado &&
+            usuarioLogado.perfil === "ADMIN"
+        ) {
+            colunaFisioterapeuta.style.display = "";
+        }
+
+    console.log(
+        "Usuário logado:",
+        usuarioLogado
+    );
 
     document
     .getElementById("buscar")
@@ -1020,7 +985,7 @@ document
             try {
 
                 const resposta =
-                    await fetch(
+                    await fetchAutenticado(
                         `/api/atendimentos/${id}`,
                         {
                             method: "PUT",
@@ -1037,6 +1002,10 @@ document
                         }
                     );
 
+
+                if (!resposta) {
+                    return;
+                }
 
                 const resultado =
                     await resposta.json();
@@ -1222,10 +1191,13 @@ document
         try {
 
             const resposta =
-                await fetch(
+                await fetchAutenticado(
                     "/api/atendimentos"
                 );
 
+            if (!resposta) {
+                return;
+            }  
 
             if (!resposta.ok) {
 
@@ -1239,7 +1211,6 @@ document
             atendimentos =
                 await resposta.json();
 
-             listaAtendimentos = atendimentos;
 
             mostrarAtendimentos(
                 atendimentos
@@ -1259,7 +1230,7 @@ document
                 <tr>
 
                     <td
-                        colspan="8"
+                        colspan="${getColspanTabela()}"
                         class="mensagem"
                     >
                         Erro ao carregar atendimentos.
@@ -1271,6 +1242,12 @@ document
 
         }
 
+    }
+
+    function getColspanTabela() {
+        return usuarioLogado?.perfil === "ADMIN"
+            ? 9
+            : 8;
     }
 
 
@@ -1292,7 +1269,7 @@ document
                 <tr>
 
                     <td
-                        colspan="8"
+                        colspan="${getColspanTabela()}"
                         class="mensagem"
                     >
                         Nenhum atendimento encontrado.
@@ -1361,6 +1338,58 @@ document
                         )
                         : "";
 
+                        let colunaUsuario = "";
+
+                        if (
+                            usuarioLogado &&
+                            usuarioLogado.perfil === "ADMIN"
+                        ) {
+
+                            colunaUsuario = `
+                                <td>
+                                    ${
+                                        atendimento.nome_fisioterapeuta ||
+                                        "-"
+                                    }
+                                </td>
+                            `;
+                        }
+
+                        const podeAlterar =
+                            usuarioLogado &&
+                            Number(atendimento.usuario_id) ===
+                            Number(usuarioLogado.usuario_id);
+
+                        let botoesAcoes = "";
+
+                        if (podeAlterar) {
+
+                            botoesAcoes = `
+                                <button
+                                    type="button"
+                                    class="btn-editar"
+                                    onclick="abrirEdicao(${atendimento.atendimento_id})"
+                                >
+                                    Editar
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn-excluir"
+                                    onclick="excluirAtendimento(${atendimento.atendimento_id})"
+                                >
+                                    Excluir
+                                </button>
+                            `;
+
+                        } else {
+
+                            botoesAcoes = `
+                                <span style="color: #94a3b8;">
+                                    Somente leitura
+                                </span>
+                            `;
+                        }
 
                 linha.innerHTML = `
 
@@ -1392,23 +1421,11 @@ document
                         ${valor}
                     </td>
 
+                    ${colunaUsuario}
+
                      <td class="acoes">
 
-                        <button
-                            type="button"
-                            class="btn-editar"
-                            onclick="abrirEdicao(${atendimento.atendimento_id})"
-                        >
-                            Editar
-                        </button>
-
-                        <button
-                            type="button"
-                            class="btn-excluir"
-                            onclick="excluirAtendimento(${atendimento.atendimento_id})"
-                        >
-                            Excluir
-                        </button>
+                        ${botoesAcoes}
 
                     </td>
 
@@ -1424,133 +1441,6 @@ document
 
     }
 
-
-    // ==========================================
-    // BUSCAR ATENDIMENTOS
-    // ==========================================
-
-    campoBusca.addEventListener(
-        "input",
-        function() {
-
-            const texto =
-                campoBusca.value
-                    .trim()
-                    .toLowerCase();
-
-
-            // Se o campo estiver vazio,
-            // mostra todos os atendimentos
-
-            if (!texto) {
-
-                mostrarAtendimentos(
-                    atendimentos
-                );
-
-                return;
-
-            }
-
-
-            const resultado =
-                atendimentos.filter(
-                    function(atendimento) {
-
-
-                        // --------------------------
-                        // DATA FORMATADA
-                        // --------------------------
-
-                        const data =
-                            atendimento.data_atendimento
-                                ? new Date(
-                                    atendimento.data_atendimento
-                                ).toLocaleDateString(
-                                    "pt-BR",
-                                    {
-                                        timeZone: "UTC"
-                                    }
-                                )
-                                : "";
-
-
-                        // --------------------------
-                        // PACIENTE
-                        // --------------------------
-
-                        const paciente =
-                            atendimento.nome__completo_paciente
-                                ? atendimento
-                                    .nome__completo_paciente
-                                    .toLowerCase()
-                                : "";
-
-
-                        // --------------------------
-                        // RESPONSÁVEL
-                        // --------------------------
-
-                        const responsavel =
-                            atendimento.nome_completo
-                                ? atendimento
-                                    .nome_completo
-                                    .toLowerCase()
-                                : "";
-
-
-                        // --------------------------
-                        // CONVÊNIO
-                        // --------------------------
-
-                        const convenio =
-                            atendimento.nome_convenio
-                                ? atendimento
-                                    .nome_convenio
-                                    .toLowerCase()
-                                : "";
-
-
-                        // --------------------------
-                        // PRESENÇA
-                        // --------------------------
-
-                        const presenca =
-                            atendimento.presenca
-                                ? atendimento
-                                    .presenca
-                                    .toLowerCase()
-                                : "";
-
-
-                        // --------------------------
-                        // VERIFICAÇÃO
-                        // --------------------------
-
-                        return (
-
-                            data.includes(texto) ||
-
-                            paciente.includes(texto) ||
-
-                            responsavel.includes(texto) ||
-
-                            convenio.includes(texto) ||
-
-                            presenca.includes(texto)
-
-                        );
-
-                    }
-                );
-
-
-            mostrarAtendimentos(
-                resultado
-            );
-
-        }
-    );
 
     //Atualizar resumo
 
@@ -1643,7 +1533,7 @@ document
 function abrirEdicao(id) {
 
     const atendimento =
-        listaAtendimentos.find(
+        atendimentos.find(
             function(item) {
 
                 return Number(item.atendimento_id)
@@ -1672,13 +1562,17 @@ function abrirEdicao(id) {
     document.getElementById(
         "editarData"
     ).value =
-        atendimento.data_atendimento;
+        atendimento.data_atendimento
+        ?.toString()
+        .substring(0, 10) || "";
 
 
     document.getElementById(
         "editarHorario"
     ).value =
-        atendimento.horario_atendimento;
+        atendimento.horario_atendimento
+        ?.toString()
+        .substring(0, 5) || "";
 
 
     document.getElementById(
@@ -1714,13 +1608,16 @@ async function excluirAtendimento(id) {
 
     try {
 
-        const resposta =
-            await fetch(
-                `/api/atendimentos/${id}`,
-                {
-                    method: "DELETE"
-                }
-            );
+        const resposta = await fetchAutenticado(
+            `/api/atendimentos/${id}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+        if (!resposta) {
+            return;
+        }
 
 
         const resultado =
@@ -1739,7 +1636,7 @@ async function excluirAtendimento(id) {
 
 
         alert(
-            resultado.mensagem
+            resultado.mensagem || "Atendimento excluído com sucesso."
         );
 
 
@@ -1774,32 +1671,36 @@ async function carregarPacientesEdicao(
             "editarPaciente"
         );
 
-
     try {
 
         const resposta =
-            await fetch("/api/pacientes");
+            await fetchAutenticado(
+                "/api/pacientes"
+            );
 
+        if (!resposta) {
+            return;
+        }
 
         if (!resposta.ok) {
 
+            const resultado =
+                await resposta.json();
+
             throw new Error(
-                "Erro ao buscar pacientes."
+                resultado.erro ||
+                "Erro ao carregar pacientes."
             );
-
         }
-
 
         const pacientes =
             await resposta.json();
-
 
         select.innerHTML = `
             <option value="">
                 Selecione o paciente
             </option>
         `;
-
 
         pacientes.forEach(
             function(paciente) {
@@ -1809,14 +1710,11 @@ async function carregarPacientesEdicao(
                         "option"
                     );
 
-
                 option.value =
                     paciente.paciente_id;
 
-
                 option.textContent =
                     paciente.nome__completo_paciente;
-
 
                 if (
                     Number(
@@ -1825,17 +1723,12 @@ async function carregarPacientesEdicao(
                         pacienteSelecionado
                     )
                 ) {
-
                     option.selected = true;
-
                 }
 
-
                 select.appendChild(option);
-
             }
         );
-
 
     } catch (erro) {
 
@@ -1847,9 +1740,7 @@ async function carregarPacientesEdicao(
         alert(
             "Não foi possível carregar os pacientes."
         );
-
     }
-
 }
 
 function fecharModal() {
@@ -1868,7 +1759,6 @@ function fecharModal() {
     carregarAtendimentos();
 
 </script>
-
 </body>
 
 </html>

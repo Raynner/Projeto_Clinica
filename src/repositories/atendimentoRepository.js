@@ -1,6 +1,6 @@
 const connection = require("../config/database");
 
-// LISTAR TODOS OS ATENDIMENTOS
+// LISTAR TODOS OS ATENDIMENTOS PARA AS FIOTERAPEUTAS
 
 function buscarTodos(usuario_id) {
 
@@ -8,9 +8,12 @@ function buscarTodos(usuario_id) {
 
         const sql = `
             SELECT
+                aten.id_paciente,
                 aten.atendimento_id,
                 aten.data_atendimento,
                 aten.horario_atendimento,
+                aten.id_paciente,
+                aten.usuario_id,
                 paci.nome__completo_paciente,
                 pa.nome_completo,
                 con.nome_convenio,
@@ -43,6 +46,50 @@ function buscarTodos(usuario_id) {
                 resolve(resultados);
             }
         );
+    });
+}
+
+// LISTAR TODOS OS ATENDIMENTOS PARA O ADMIN
+
+function buscarTodosAdmin() {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            SELECT
+                aten.atendimento_id,
+                aten.data_atendimento,
+                aten.horario_atendimento,
+                aten.id_paciente,
+                aten.usuario_id,
+                paci.nome__completo_paciente,
+                pa.nome_completo,
+                con.nome_convenio,
+                aten.presenca,
+                con.valor,
+		        usu.nome AS nome_fisioterapeuta
+
+            FROM atendimento aten
+            JOIN pacientes paci
+                ON aten.id_paciente = paci.paciente_id
+            JOIN pais pa
+                ON paci.id_responsavel = pa.pais_id
+            JOIN convenio con
+                ON paci.id_convenio = con.convenio_id
+	    JOIN usuarios usu
+		ON aten.usuario_id = usu.usuario_id
+          
+                ORDER BY
+                    aten.data_atendimento,
+                    aten.horario_atendimento 
+        `;
+
+        connection.query(sql, (err, resultados) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            resolve(resultados);
+        });
     });
 }
 
@@ -92,6 +139,37 @@ function buscarPorId(id, usuario_id) {
                 resolve(resultados[0]);
             }
         );
+    });
+}
+
+function buscarPorIdAdmin(id) {
+    return new Promise((resolve, reject) => {
+        const sql = `
+            SELECT
+                a.atendimento_id,
+                a.data_atendimento,
+                a.horario_atendimento,
+                a.presenca,
+                a.id_paciente,
+                a.usuario_id,
+                p.nome__completo_paciente,
+                u.nome AS nome_fisioterapeuta
+            FROM atendimento a
+            INNER JOIN pacientes p
+                ON a.id_paciente = p.paciente_id
+            INNER JOIN usuarios u
+                ON a.usuario_id = u.usuario_id
+            WHERE a.atendimento_id = ?
+        `;
+
+        connection.query(sql, [id], (err, resultados) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+
+            resolve(resultados[0] || null);
+        });
     });
 }
 
@@ -222,8 +300,10 @@ function excluir(id, usuario_id) {
 
 module.exports = {
     buscarTodos,
+    buscarTodosAdmin,
     buscarPorId,
     cadastrar,
     atualizar,
-    excluir
+    excluir,
+    buscarPorIdAdmin
 };

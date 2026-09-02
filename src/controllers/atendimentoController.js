@@ -3,31 +3,23 @@ const atendimentoService = require("../services/atendimentoService");
 // GET /api/atendimentos
 
 async function listarAtendimentos(req, res) {
-
     try {
-
         const usuario_id = req.usuario.usuario_id;
+        const perfil = req.usuario.perfil;
 
         const atendimentos =
-            await atendimentoService.listarAtendimentos(usuario_id);
+            await atendimentoService.listarAtendimentos(
+                usuario_id,
+                perfil
+            );
 
         res.status(200).json(atendimentos);
 
     } catch (erro) {
+        console.error("Erro ao listar atendimentos:", erro);
 
-        console.error(
-            "Erro ao listar atendimentos:",
-            erro
-        );
-
-        res.status(
-            erro.status || 500
-        ).json({
-
-            erro:
-                erro.message ||
-                "Erro interno do servidor."
-
+        res.status(erro.status || 500).json({
+            erro: erro.message || "Erro interno do servidor."
         });
     }
 }
@@ -41,9 +33,10 @@ async function buscarAtendimento(req, res) {
         const { id } = req.params;
 
         const usuario_id = req.usuario.usuario_id
+        const perfil = req.usuario.perfil;
 
         const atendimento =
-            await atendimentoService.buscarAtendimento(id, usuario_id);
+            await atendimentoService.buscarAtendimento(id, usuario_id, perfil);
 
         res.status(200).json(atendimento);
 

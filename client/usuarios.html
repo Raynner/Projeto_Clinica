@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Projeto.dev - Usuários</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/navbar.css"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a,
+                    #1e293b
+                );
+
+            color: white;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+
+            margin: 60px auto;
+
+            padding: 0 20px;
+        }
+
+        .card {
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.3);
+
+            backdrop-filter: blur(10px);
+        }
+
+        .header-page {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 30px;
+        }
+
+        .header-page h1 {
+            color: #38bdf8;
+
+            margin-bottom: 8px;
+        }
+
+        .header-page p {
+            color: #94a3b8;
+        }
+
+        .btn-novo {
+            padding: 11px 16px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #38bdf8;
+            color: #0f172a;
+
+            font-size: 14px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
+        }
+
+        .btn-novo:hover {
+            background: #0ea5e9;
+
+            transform:
+                translateY(-1px);
+        }
+
+        .barra {
+            display: flex;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+        #buscar {
+            width: 100%;
+
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            border:
+                1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        #buscar:focus {
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(56, 189, 248, 0.15);
+        }
+
+        .tabela-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 750px;
+        }
+
+        th {
+            text-align: left;
+
+            padding: 14px;
+
+            background: #0f172a;
+
+            color: #38bdf8;
+
+            font-size: 14px;
+        }
+
+        td {
+            padding: 14px;
+
+            border-bottom:
+                1px solid #334155;
+
+            color: #e2e8f0;
+
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background:
+                rgba(255, 255, 255, 0.04);
+        }
+
+        .status {
+            display: inline-flex;
+
+            padding: 5px 9px;
+
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-ativo {
+            background:
+                rgba(34, 197, 94, 0.15);
+
+            color: #4ade80;
+
+            border:
+                1px solid
+                rgba(34, 197, 94, 0.35);
+        }
+
+        .status-inativo {
+            background:
+                rgba(239, 68, 68, 0.15);
+
+            color: #f87171;
+
+            border:
+                1px solid
+                rgba(239, 68, 68, 0.35);
+        }
+
+        .perfil {
+            display: inline-flex;
+
+            padding: 5px 9px;
+
+            border-radius: 6px;
+
+            background:
+                rgba(56, 189, 248, 0.12);
+
+            color: #38bdf8;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .acoes {
+            white-space: nowrap;
+        }
+
+        .btn-status {
+            padding: 8px 11px;
+
+            border: none;
+            border-radius: 7px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .btn-desativar {
+            background:
+                rgba(239, 68, 68, 0.16);
+
+            color: #f87171;
+
+            border:
+                1px solid
+                rgba(239, 68, 68, 0.35);
+        }
+
+        .btn-desativar:hover {
+            background: #ef4444;
+
+            color: white;
+        }
+
+        .btn-ativar {
+            background:
+                rgba(34, 197, 94, 0.16);
+
+            color: #4ade80;
+
+            border:
+                1px solid
+                rgba(34, 197, 94, 0.35);
+        }
+
+        .btn-ativar:hover {
+            background: #22c55e;
+
+            color: white;
+        }
+
+        .mensagem-tabela {
+            text-align: center;
+
+            color: #94a3b8;
+
+            padding: 28px;
+        }
+
+        .modal {
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(0, 0, 0, 0.72);
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .modal.ativo {
+            display: flex;
+        }
+
+        .modal-conteudo {
+            width: 100%;
+            max-width: 520px;
+
+            background: #1e293b;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.12);
+
+            border-radius: 16px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 50px
+                rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 {
+            color: #38bdf8;
+        }
+
+        .btn-fechar {
+            width: 35px;
+            height: 35px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: transparent;
+
+            color: white;
+
+            font-size: 27px;
+
+            cursor: pointer;
+        }
+
+        .btn-fechar:hover {
+            background: #334155;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #e2e8f0;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid #334155;
+
+            background: #0f172a;
+
+            color: white;
+
+            font-size: 15px;
+
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #38bdf8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(56, 189, 248, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: #64748b;
+        }
+
+        .form-observacao {
+            color: #94a3b8;
+
+            font-size: 12px;
+            line-height: 1.5;
+
+            margin-top: -8px;
+            margin-bottom: 20px;
+        }
+
+        .modal-botoes {
+            display: flex;
+
+            gap: 12px;
+
+            margin-top: 25px;
+        }
+
+        .modal-botoes button {
+            flex: 1;
+
+            padding: 12px;
+
+            border: none;
+            border-radius: 9px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .btn-cadastrar {
+            background: #38bdf8;
+            color: #0f172a;
+        }
+
+        .btn-cadastrar:hover {
+            background: #0ea5e9;
+        }
+
+        .btn-cadastrar:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-cancelar {
+            background: #334155;
+            color: white;
+        }
+
+        .btn-cancelar:hover {
+            background: #475569;
+        }
+
+        #mensagemCadastro {
+            display: none;
+
+            margin-top: 20px;
+            padding: 12px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            font-size: 14px;
+        }
+
+        .sucesso {
+            display: block !important;
+
+            background:
+                rgba(34, 197, 94, 0.15);
+
+            border:
+                1px solid #22c55e;
+
+            color: #4ade80;
+        }
+
+        .erro {
+            display: block !important;
+
+            background:
+                rgba(239, 68, 68, 0.15);
+
+            border:
+                1px solid #ef4444;
+
+            color: #f87171;
+        }
+
+        footer {
+            text-align: center;
+
+            padding: 30px;
+
+            border-top:
+                1px solid
+                rgba(255, 255, 255, 0.1);
+
+            color: #94a3b8;
+
+            margin-top: 80px;
+        }
+
+        @media (max-width: 700px) {
+
+            .container {
+                margin-top: 30px;
+            }
+
+            .card {
+                padding: 22px 18px;
+            }
+
+            .header-page {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .btn-novo {
+                width: 100%;
+            }
+
+            .modal-conteudo {
+                padding: 25px 20px;
+            }
+
+            .modal-botoes {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="navbar"></div>
+
+    <main>
+
+        <div class="container">
+
+            <div class="card">
+
+                <div class="header-page">
+
+                    <div>
+
+                        <h1>
+                            Usuários
+                        </h1>
+
+                        <p>
+                            Gerencie os usuários que possuem
+                            acesso ao sistema.
+                        </p>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-novo"
+                        id="btnNovoUsuario"
+                    >
+                        + Novo usuário
+                    </button>
+
+                </div>
+
+
+                <div class="barra">
+
+                    <input
+                        type="text"
+                        id="buscar"
+                        placeholder="Pesquisar por nome, e-mail ou perfil..."
+                    >
+
+                </div>
+
+
+                <div class="tabela-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Perfil</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="tabelaUsuarios">
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="mensagem-tabela"
+                                >
+                                    Carregando usuários...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <div
+        id="modalUsuario"
+        class="modal"
+    >
+
+        <div class="modal-conteudo">
+
+            <div class="modal-header">
+
+                <h2>
+                    Cadastrar usuário
+                </h2>
+
+                <button
+                    type="button"
+                    class="btn-fechar"
+                    id="btnFecharModal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="formUsuario">
+
+                <div class="form-group">
+
+                    <label for="nome">
+                        Nome
+                    </label>
+
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Nome do fisioterapeuta"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="email@clinica.com"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="senha">
+                        Senha inicial
+                    </label>
+
+                    <input
+                        type="password"
+                        id="senha"
+                        name="senha"
+                        placeholder="Digite a senha inicial"
+                        autocomplete="new-password"
+                        minlength="6"
+                        required
+                    >
+
+                </div>
+
+
+                <p class="form-observacao">
+                    O novo usuário será cadastrado como
+                    <strong>FISIOTERAPEUTA</strong>.
+                </p>
+
+
+                <div class="modal-botoes">
+
+                    <button
+                        type="submit"
+                        class="btn-cadastrar"
+                        id="btnCadastrarUsuario"
+                    >
+                        Cadastrar
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn-cancelar"
+                        id="btnCancelarModal"
+                    >
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div id="mensagemCadastro"></div>
+
+        </div>
+
+    </div>
+
+
+    <footer>
+
+        <p>
+            Projeto.dev • Gestão da Clínica
+        </p>
+
+    </footer>
+
+
+    <script src="/js/auth.js"></script>
+    <script src="/js/navbar.js"></script>
+
+    <script>
+
+        protegerPagina();
+
+
+        // ==========================================
+        // GARANTIR ACESSO APENAS PARA ADMIN
+        // ==========================================
+
+        const usuarioLogado =
+            getUsuarioLogado();
+
+
+        if (
+            !usuarioLogado ||
+            usuarioLogado.perfil !== "ADMIN"
+        ) {
+
+            window.location.href =
+                "/index.html";
+        }
+
+
+        // ==========================================
+        // ELEMENTOS
+        // ==========================================
+
+        const tabelaUsuarios =
+            document.getElementById(
+                "tabelaUsuarios"
+            );
+
+        const campoBusca =
+            document.getElementById(
+                "buscar"
+            );
+
+        const modalUsuario =
+            document.getElementById(
+                "modalUsuario"
+            );
+
+        const formUsuario =
+            document.getElementById(
+                "formUsuario"
+            );
+
+        const mensagemCadastro =
+            document.getElementById(
+                "mensagemCadastro"
+            );
+
+        const btnCadastrarUsuario =
+            document.getElementById(
+                "btnCadastrarUsuario"
+            );
+
+
+        let usuarios = [];
+
+
+        // ==========================================
+        // ESCAPAR TEXTO PARA HTML
+        // ==========================================
+
+        function escapeHtml(valor) {
+
+            const elemento =
+                document.createElement("div");
+
+            elemento.textContent =
+                valor ?? "";
+
+            return elemento.innerHTML;
+        }
+
+
+        // ==========================================
+        // CARREGAR USUÁRIOS
+        // ==========================================
+
+        async function carregarUsuarios() {
+
+            try {
+
+                const resposta =
+                    await fetchAutenticado(
+                        "/api/usuarios"
+                    );
+
+
+                if (!resposta) {
+                    return;
+                }
+
+
+                const resultado =
+                    await resposta.json();
+
+
+                if (!resposta.ok) {
+
+                    throw new Error(
+                        resultado.erro ||
+                        "Erro ao buscar usuários."
+                    );
+                }
+
+
+                usuarios =
+                    Array.isArray(resultado)
+                        ? resultado
+                        : resultado.usuarios || [];
+
+
+                mostrarUsuarios(
+                    usuarios
+                );
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao carregar usuários:",
+                    erro
+                );
+
+
+                tabelaUsuarios.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="mensagem-tabela"
+                        >
+                            Não foi possível carregar os usuários.
+                        </td>
+
+                    </tr>
+
+                `;
+            }
+        }
+
+
+        // ==========================================
+        // MOSTRAR USUÁRIOS
+        // ==========================================
+
+        function mostrarUsuarios(lista) {
+
+            tabelaUsuarios.innerHTML = "";
+
+
+            if (lista.length === 0) {
+
+                tabelaUsuarios.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="mensagem-tabela"
+                        >
+                            Nenhum usuário encontrado.
+                        </td>
+
+                    </tr>
+
+                `;
+
+                return;
+            }
+
+
+            lista.forEach(
+                function(usuario) {
+
+                    const tr =
+                        document.createElement("tr");
+
+
+                    const ativo =
+                        Boolean(
+                            Number(usuario.ativo)
+                        );
+
+
+                    const ehUsuarioAtual =
+                        Number(usuario.usuario_id) ===
+                        Number(usuarioLogado.usuario_id);
+
+
+                    const statusHtml =
+                        ativo
+                            ? `
+                                <span class="status status-ativo">
+                                    Ativo
+                                </span>
+                            `
+                            : `
+                                <span class="status status-inativo">
+                                    Inativo
+                                </span>
+                            `;
+
+
+                    let acaoHtml = "";
+
+
+                    if (ehUsuarioAtual) {
+
+                        acaoHtml = `
+                            <span
+                                style="
+                                    color: #94a3b8;
+                                    font-size: 12px;
+                                "
+                            >
+                                Usuário atual
+                            </span>
+                        `;
+
+                    } else if (ativo) {
+
+                        acaoHtml = `
+                            <button
+                                type="button"
+                                class="btn-status btn-desativar"
+                                onclick="alterarStatusUsuario(
+                                    ${Number(usuario.usuario_id)},
+                                    false
+                                )"
+                            >
+                                Desativar
+                            </button>
+                        `;
+
+                    } else {
+
+                        acaoHtml = `
+                            <button
+                                type="button"
+                                class="btn-status btn-ativar"
+                                onclick="alterarStatusUsuario(
+                                    ${Number(usuario.usuario_id)},
+                                    true
+                                )"
+                            >
+                                Ativar
+                            </button>
+                        `;
+                    }
+
+
+                    tr.innerHTML = `
+
+                        <td>
+                            ${Number(usuario.usuario_id)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(usuario.nome)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(usuario.email)}
+                        </td>
+
+                        <td>
+                            <span class="perfil">
+                                ${escapeHtml(usuario.perfil)}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${statusHtml}
+                        </td>
+
+                        <td class="acoes">
+                            ${acaoHtml}
+                        </td>
+
+                    `;
+
+
+                    tabelaUsuarios.appendChild(
+                        tr
+                    );
+                }
+            );
+        }
+
+
+        // ==========================================
+        // PESQUISA
+        // ==========================================
+
+        campoBusca.addEventListener(
+            "input",
+            function() {
+
+                const texto =
+                    campoBusca.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const resultado =
+                    usuarios.filter(
+                        function(usuario) {
+
+                            const nome =
+                                usuario.nome
+                                    ?.toLowerCase() || "";
+
+                            const email =
+                                usuario.email
+                                    ?.toLowerCase() || "";
+
+                            const perfil =
+                                usuario.perfil
+                                    ?.toLowerCase() || "";
+
+
+                            return (
+                                nome.includes(texto) ||
+                                email.includes(texto) ||
+                                perfil.includes(texto)
+                            );
+                        }
+                    );
+
+
+                mostrarUsuarios(
+                    resultado
+                );
+            }
+        );
+
+
+        // ==========================================
+        // MODAL
+        // ==========================================
+
+        function abrirModalUsuario() {
+
+            mensagemCadastro.textContent = "";
+            mensagemCadastro.className = "";
+
+            formUsuario.reset();
+
+            modalUsuario.classList.add(
+                "ativo"
+            );
+
+            document
+                .getElementById("nome")
+                .focus();
+        }
+
+
+        function fecharModalUsuario() {
+
+            modalUsuario.classList.remove(
+                "ativo"
+            );
+
+            formUsuario.reset();
+
+            mensagemCadastro.textContent = "";
+            mensagemCadastro.className = "";
+        }
+
+
+        document
+            .getElementById("btnNovoUsuario")
+            .addEventListener(
+                "click",
+                abrirModalUsuario
+            );
+
+
+        document
+            .getElementById("btnFecharModal")
+            .addEventListener(
+                "click",
+                fecharModalUsuario
+            );
+
+
+        document
+            .getElementById("btnCancelarModal")
+            .addEventListener(
+                "click",
+                fecharModalUsuario
+            );
+
+
+        modalUsuario.addEventListener(
+            "click",
+            function(event) {
+
+                if (
+                    event.target ===
+                    modalUsuario
+                ) {
+
+                    fecharModalUsuario();
+                }
+            }
+        );
+
+
+        // ==========================================
+        // CADASTRAR USUÁRIO
+        // ==========================================
+
+        formUsuario.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const nome =
+                    document.getElementById(
+                        "nome"
+                    ).value.trim();
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    ).value.trim();
+
+                const senha =
+                    document.getElementById(
+                        "senha"
+                    ).value;
+
+
+                if (
+                    !nome ||
+                    !email ||
+                    !senha
+                ) {
+
+                    mensagemCadastro.textContent =
+                        "Preencha todos os campos.";
+
+                    mensagemCadastro.className =
+                        "erro";
+
+                    return;
+                }
+
+
+                btnCadastrarUsuario.disabled =
+                    true;
+
+                btnCadastrarUsuario.textContent =
+                    "Cadastrando...";
+
+
+                mensagemCadastro.textContent = "";
+                mensagemCadastro.className = "";
+
+
+                try {
+
+                    const resposta =
+                        await fetchAutenticado(
+                            "/api/usuarios",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        nome,
+                                        email,
+                                        senha
+                                    })
+                            }
+                        );
+
+
+                    if (!resposta) {
+                        return;
+                    }
+
+
+                    const resultado =
+                        await resposta.json();
+
+
+                    if (!resposta.ok) {
+
+                        mensagemCadastro.textContent =
+                            resultado.erro ||
+                            "Não foi possível cadastrar o usuário.";
+
+                        mensagemCadastro.className =
+                            "erro";
+
+                        return;
+                    }
+
+
+                    mensagemCadastro.textContent =
+                        resultado.mensagem ||
+                        "Usuário cadastrado com sucesso.";
+
+                    mensagemCadastro.className =
+                        "sucesso";
+
+
+                    formUsuario.reset();
+
+
+                    await carregarUsuarios();
+
+
+                    setTimeout(
+                        fecharModalUsuario,
+                        900
+                    );
+
+
+                } catch (erro) {
+
+                    console.error(
+                        "Erro ao cadastrar usuário:",
+                        erro
+                    );
+
+
+                    mensagemCadastro.textContent =
+                        "Não foi possível conectar ao servidor.";
+
+                    mensagemCadastro.className =
+                        "erro";
+
+
+                } finally {
+
+                    btnCadastrarUsuario.disabled =
+                        false;
+
+                    btnCadastrarUsuario.textContent =
+                        "Cadastrar";
+                }
+            }
+        );
+
+
+        // ==========================================
+        // ATIVAR / DESATIVAR USUÁRIO
+        // ==========================================
+
+        async function alterarStatusUsuario(
+            id,
+            novoStatus
+        ) {
+
+            const usuario =
+                usuarios.find(
+                    function(item) {
+
+                        return (
+                            Number(item.usuario_id) ===
+                            Number(id)
+                        );
+                    }
+                );
+
+
+            if (!usuario) {
+                return;
+            }
+
+
+            const acao =
+                novoStatus
+                    ? "ativar"
+                    : "desativar";
+
+
+            const confirmar =
+                confirm(
+                    `Deseja realmente ${acao} o usuário "${usuario.nome}"?`
+                );
+
+
+            if (!confirmar) {
+                return;
+            }
+
+
+            try {
+
+                const resposta =
+                    await fetchAutenticado(
+                        `/api/usuarios/${id}/status`,
+                        {
+                            method: "PATCH",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    ativo:
+                                        novoStatus
+                                })
+                        }
+                    );
+
+
+                if (!resposta) {
+                    return;
+                }
+
+
+                const resultado =
+                    await resposta.json();
+
+
+                if (!resposta.ok) {
+
+                    alert(
+                        resultado.erro ||
+                        `Não foi possível ${acao} o usuário.`
+                    );
+
+                    return;
+                }
+
+
+                alert(
+                    resultado.mensagem ||
+                    `Usuário ${novoStatus ? "ativado" : "desativado"} com sucesso.`
+                );
+
+
+                await carregarUsuarios();
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao alterar status:",
+                    erro
+                );
+
+
+                alert(
+                    "Não foi possível conectar ao servidor."
+                );
+            }
+        }
+
+
+        // ==========================================
+        // INICIAR
+        // ==========================================
+
+        carregarUsuarios();
+
+    </script>
+
+</body>
+
+</html>

@@ -4,22 +4,23 @@ const pacienteRepository = require("../repositories/pacienteRepository");
 
 // LISTAR
 
-async function listarAtendimentos(usuario_id) {
-
+async function listarAtendimentos(usuario_id, perfil) {
     if (!usuario_id) {
         const erro = new Error("Usuário autenticado é obrigatório.");
-
         erro.status = 401;
         throw erro;
     }
 
-    return await atendimentoRepository.buscarTodos(usuario_id);
+    if (perfil === "ADMIN") {
+        return await atendimentoRepository.buscarTodosAdmin();
+    }
 
+    return await atendimentoRepository.buscarTodos(usuario_id);
 }
 
 // BUSCAR POR ID
 
-async function buscarAtendimento(id, usuario_id) {
+async function buscarAtendimento(id, usuario_id, perfil) {
 
     if (!/^\d+$/.test(String(id))) {
 
@@ -40,8 +41,19 @@ async function buscarAtendimento(id, usuario_id) {
         throw erro;
     }
 
-    const atendimento =
-        await atendimentoRepository.buscarPorId(id, usuario_id);
+    let atendimento;
+
+    if (perfil === "ADMIN") {
+        atendimento =
+            await atendimentoRepository.buscarPorIdAdmin(id);
+    } else {
+        atendimento =
+            await atendimentoRepository.buscarPorId(
+                id,
+                usuario_id
+            );
+    }
+    
 
     if (!atendimento) {
 

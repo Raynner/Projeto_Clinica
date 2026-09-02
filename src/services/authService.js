@@ -26,15 +26,14 @@ async function login(email, senha) {
         throw erro;
     }
 
-    // Verificar se usuário está ativo
+    // VALIDA SE O USUÁRIO ESTÁ ATIVO
 
     if (!usuario.ativo) {
-
-        const erro = new Error("Usuário está desativado.");
-
+        const erro = new Error("Usuário inativo. Entre em contato com o administrador.");
         erro.status = 403;
         throw erro;
     }
+
 
     // Comparar senha informada com o hash do banco
 
@@ -56,7 +55,8 @@ async function login(email, senha) {
         {
             usuario_id: usuario.usuario_id,
             nome: usuario.nome,
-            email: usuario.email 
+            email: usuario.email, 
+            perfil: usuario.perfil
         },
 
         process.env.JWT_SECRET,

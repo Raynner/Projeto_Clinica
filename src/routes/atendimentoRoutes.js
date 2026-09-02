@@ -1,25 +1,26 @@
 const express = require("express");
 const router = express.Router();
+const authMiddleware = require("../middlewares/authMiddleware");
 const atendimentoController = require("../controllers/atendimentoController");
 
 router.get(
-    "/", atendimentoController.listarAtendimentos
+    "/", authMiddleware, atendimentoController.listarAtendimentos
 );
 
 router.get(
-    "/:id", atendimentoController.buscarAtendimento
+    "/:id", authMiddleware, atendimentoController.buscarAtendimento
 );
 
 router.post(
-    "/", atendimentoController.cadastrarAtendimento
+    "/", authMiddleware, atendimentoController.cadastrarAtendimento
 );
 
 router.put(
-    "/:id", atendimentoController.atualizarAtendimento
+    "/:id", authMiddleware, atendimentoController.atualizarAtendimento
 );
 
 router.delete(
-    "/:id", atendimentoController.excluirAtendimento
+    "/:id", authMiddleware, atendimentoController.excluirAtendimento
 );
 
 module.exports = router;

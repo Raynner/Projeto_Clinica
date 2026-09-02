@@ -11,6 +11,8 @@ const atendimentoRoutes = require("./routes/atendimentoRoutes");
 
 const usuarioRoutes = require("./routes/usuarioRoutes");
 
+const authRoutes = require("./routes/authRoutes");
+
 const notFound = require("./middlewares/notFound");
 
 const errorHandler = require("./middlewares/errorHandler");
@@ -43,7 +45,13 @@ app.use(
     "/api/atendimentos", atendimentoRoutes
 );
 
-app.use("/api/usuarios", usuarioRoutes);
+app.use(
+    "/api/usuarios", usuarioRoutes
+);
+
+app.use(
+    "/api/auth", authRoutes
+);
 
 // ROTA NÃO ENCONTRADA
 

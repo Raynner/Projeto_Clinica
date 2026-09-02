@@ -6,8 +6,10 @@ async function listarAtendimentos(req, res) {
 
     try {
 
+        const usuario_id = req.usuario.usuario_id;
+
         const atendimentos =
-            await atendimentoService.listarAtendimentos();
+            await atendimentoService.listarAtendimentos(usuario_id);
 
         res.status(200).json(atendimentos);
 
@@ -38,8 +40,10 @@ async function buscarAtendimento(req, res) {
 
         const { id } = req.params;
 
+        const usuario_id = req.usuario.usuario_id
+
         const atendimento =
-            await atendimentoService.buscarAtendimento(id);
+            await atendimentoService.buscarAtendimento(id, usuario_id);
 
         res.status(200).json(atendimento);
 
@@ -68,9 +72,27 @@ async function cadastrarAtendimento(req, res) {
 
     try {
 
+        const atendimento = {
+
+            data_atendimento:
+                req.body.data_atendimento,
+
+            horario_atendimento:
+                req.body.horario_atendimento,
+
+            id_paciente:
+                req.body.id_paciente,
+
+            presenca:
+                req.body.presenca,
+
+            usuario_id:
+                req.usuario.usuario_id
+        };
+
         const resultado =
             await atendimentoService.cadastrarAtendimento(
-                req.body
+                atendimento
             );
 
         res.status(201).json({
@@ -110,10 +132,13 @@ async function atualizarAtendimento(req, res) {
 
         const { id } = req.params;
 
+        const usuario_id = req.usuario.usuario_id;
+
         const resultado =
             await atendimentoService.atualizarAtendimento(
                 id,
-                req.body
+                req.body,
+                usuario_id
             );
 
         res.status(200).json({
@@ -156,8 +181,10 @@ async function excluirAtendimento(req, res) {
 
         const { id } = req.params;
 
+        const usuario_id = req.usuario.usuario_id;
+
         const resultado =
-            await atendimentoService.excluirAtendimento(id);
+            await atendimentoService.excluirAtendimento(id, usuario_id);
 
         res.status(200).json({
 

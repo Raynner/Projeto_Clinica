@@ -4,15 +4,22 @@ const pacienteRepository = require("../repositories/pacienteRepository");
 
 // LISTAR
 
-async function listarAtendimentos() {
+async function listarAtendimentos(usuario_id) {
 
-    return await atendimentoRepository.buscarTodos();
+    if (!usuario_id) {
+        const erro = new Error("Usuário autenticado é obrigatório.");
+
+        erro.status = 401;
+        throw erro;
+    }
+
+    return await atendimentoRepository.buscarTodos(usuario_id);
 
 }
 
 // BUSCAR POR ID
 
-async function buscarAtendimento(id) {
+async function buscarAtendimento(id, usuario_id) {
 
     if (!/^\d+$/.test(String(id))) {
 
@@ -21,12 +28,20 @@ async function buscarAtendimento(id) {
         );
 
         erro.status = 400;
+        throw erro;
+    }
 
+    if (!usuario_id) {
+        const erro = new Error(
+            "Usuário autenticado é obrigatório."
+        );
+
+        erro.status = 401;
         throw erro;
     }
 
     const atendimento =
-        await atendimentoRepository.buscarPorId(id);
+        await atendimentoRepository.buscarPorId(id, usuario_id);
 
     if (!atendimento) {
 
@@ -35,7 +50,6 @@ async function buscarAtendimento(id) {
         );
 
         erro.status = 404;
-
         throw erro;
     }
 
@@ -47,14 +61,15 @@ async function buscarAtendimento(id) {
 async function cadastrarAtendimento(dados) {
 
     const {
-        dataAtendimento,
-        horario,
-        idPaciente,
-        presenca
+        data_atendimento,
+        horario_atendimento,
+        id_paciente,
+        presenca,
+        usuario_id
     } = dados;
 
 
-    if (!dataAtendimento) {
+    if (!data_atendimento) {
 
         const erro = new Error(
             "A data do atendimento é obrigatória."
@@ -66,7 +81,7 @@ async function cadastrarAtendimento(dados) {
     }
 
 
-    if (!horario) {
+    if (!horario_atendimento) {
 
         const erro = new Error(
             "O horário do atendimento é obrigatório."
@@ -78,7 +93,7 @@ async function cadastrarAtendimento(dados) {
     }
 
 
-    if (!idPaciente) {
+    if (!id_paciente) {
 
         const erro = new Error(
             "O paciente é obrigatório."
@@ -102,10 +117,23 @@ async function cadastrarAtendimento(dados) {
     }
 
 
+    if (!usuario_id) {
+
+        const erro = new Error(
+            "Usuário autenticado é obrigatório."
+        );
+
+        erro.status = 401;
+
+        throw erro;
+    }
+
+
     const paciente =
         await pacienteRepository.buscarPorId(
-            idPaciente
+            id_paciente
         );
+
 
     if (!paciente) {
 
@@ -124,6 +152,7 @@ async function cadastrarAtendimento(dados) {
         "FALTOU",
         "DESMARCOU"
     ];
+
 
     if (!presencasValidas.includes(presenca)) {
 
@@ -144,7 +173,7 @@ async function cadastrarAtendimento(dados) {
 
 // ATUALIZAR
 
-async function atualizarAtendimento(id, dados) {
+async function atualizarAtendimento(id, dados, usuario_id) {
 
     if (!/^\d+$/.test(String(id))) {
 
@@ -157,9 +186,18 @@ async function atualizarAtendimento(id, dados) {
         throw erro;
     }
 
+    if (!usuario_id) {
+        const erro = new Error(
+            "Usuário autenticado é obrigatório."
+        );
+
+        erro.status = 401;
+        throw erro;
+    }
+
 
     const atendimento =
-        await atendimentoRepository.buscarPorId(id);
+        await atendimentoRepository.buscarPorId(id, usuario_id);
 
     if (!atendimento) {
 
@@ -235,13 +273,14 @@ async function atualizarAtendimento(id, dados) {
 
     return await atendimentoRepository.atualizar(
         id,
-        dados
+        dados,
+        usuario_id
     );
 }
 
 // EXCLUIR
 
-async function excluirAtendimento(id) {
+async function excluirAtendimento(id, usuario_id) {
 
     if (!/^\d+$/.test(String(id))) {
 
@@ -254,9 +293,19 @@ async function excluirAtendimento(id) {
         throw erro;
     }
 
+    if (!usuario_id) {
+
+        const erro = new Error(
+            "Usuário autenticado é obrigatório."
+        );
+
+        erro.status = 401;
+        throw erro;
+    }
+
 
     const atendimento =
-        await atendimentoRepository.buscarPorId(id);
+        await atendimentoRepository.buscarPorId(id, usuario_id);
 
     if (!atendimento) {
 
@@ -270,7 +319,7 @@ async function excluirAtendimento(id) {
     }
 
 
-    return await atendimentoRepository.excluir(id);
+    return await atendimentoRepository.excluir(id, usuario_id);
 }
 
 module.exports = {

@@ -2,7 +2,7 @@ const connection = require("../config/database");
 
 // LISTAR TODOS OS ATENDIMENTOS
 
-function buscarTodos() {
+function buscarTodos(usuario_id) {
 
     return new Promise((resolve, reject) => {
 
@@ -24,7 +24,7 @@ function buscarTodos() {
                 ON paci.id_responsavel = pa.pais_id
             JOIN convenio con
                 ON paci.id_convenio = con.convenio_id
-
+            WHERE aten.usuario_id = ?
                 ORDER BY
                     aten.data_atendimento,
                     aten.horario_atendimento 
@@ -32,6 +32,7 @@ function buscarTodos() {
 
         connection.query(
             sql,
+            [usuario_id],
             (err, resultados) => {
 
                 if (err) {
@@ -47,7 +48,7 @@ function buscarTodos() {
 
 // BUSCAR ATENDIMENTO POR ID
 
-function buscarPorId(id) {
+function buscarPorId(id, usuario_id) {
 
     return new Promise((resolve, reject) => {
 
@@ -69,7 +70,9 @@ function buscarPorId(id) {
             INNER JOIN convenio c
                 ON p.id_convenio = c.convenio_id
 
-            WHERE a.atendimento_id = ?
+            WHERE 
+                a.atendimento_id = ?
+                AND a.usuario_id = ?
 
             ORDER BY
                 a.data_atendimento,
@@ -78,7 +81,7 @@ function buscarPorId(id) {
 
         connection.query(
             sql,
-            [id],
+            [id, usuario_id],
             (err, resultados) => {
 
                 if (err) {
@@ -96,13 +99,14 @@ function buscarPorId(id) {
 
 function cadastrar(dados) {
 
-    return new Promise((resolve, reject) => {
+     return new Promise((resolve, reject) => {
 
         const {
-            dataAtendimento,
-            horario,
-            idPaciente,
-            presenca
+            data_atendimento,
+            horario_atendimento,
+            id_paciente,
+            presenca,
+            usuario_id
         } = dados;
 
         const sql = `
@@ -111,18 +115,20 @@ function cadastrar(dados) {
                 data_atendimento,
                 horario_atendimento,
                 id_paciente,
-                presenca
+                presenca,
+                usuario_id
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         `;
 
         connection.query(
             sql,
             [
-                dataAtendimento,
-                horario,
-                idPaciente,
-                presenca
+                data_atendimento,
+                horario_atendimento,
+                id_paciente,
+                presenca,
+                usuario_id
             ],
             (err, resultado) => {
 
@@ -139,7 +145,7 @@ function cadastrar(dados) {
 
 // ATUALIZAR ATENDIMENTO
 
-function atualizar(id, dados) {
+function atualizar(id, dados, usuario_id) {
 
     return new Promise((resolve, reject) => {
 
@@ -159,6 +165,7 @@ function atualizar(id, dados) {
                 presenca = ?
 
             WHERE atendimento_id = ?
+            AND usuario_id = ?
         `;
 
         connection.query(
@@ -168,7 +175,8 @@ function atualizar(id, dados) {
                 horario,
                 idPaciente,
                 presenca,
-                id
+                id,
+                usuario_id
             ],
             (err, resultado) => {
 
@@ -185,18 +193,19 @@ function atualizar(id, dados) {
 
 // EXCLUIR ATENDIMENTO
 
-function excluir(id) {
+function excluir(id, usuario_id) {
 
     return new Promise((resolve, reject) => {
 
         const sql = `
             DELETE FROM atendimento
             WHERE atendimento_id = ?
+            AND usuario_id = ?
         `;
 
         connection.query(
             sql,
-            [id],
+            [id, usuario_id],
             (err, resultado) => {
 
                 if (err) {

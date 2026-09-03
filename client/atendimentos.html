@@ -533,7 +533,20 @@
             transform: translateY(-1px);
         }
 
+        .filtros.com-fisioterapeuta {
+            grid-template-columns: 2fr 1fr 1fr 2fr auto;
+        }
+
+        @media (max-width: 900px) {
+            .filtros.com-fisioterapeuta {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
         @media (max-width: 600px) {
+            .filtros.com-fisioterapeuta {
+                grid-template-columns: 1fr;
+            }
         }
 
     </style>
@@ -625,6 +638,15 @@
 
     </div>
 
+
+    <div class="filtro" id="filtroFisioterapeuta" style="display: none;">
+        <label for="fisioterapeutaFiltro">Fisioterapeuta</label>
+        <input
+            type="text"
+            id="fisioterapeutaFiltro"
+            placeholder="Nome da fisioterapeuta..."
+        >
+    </div>
 
     <button
         type="button"
@@ -884,6 +906,8 @@
             usuarioLogado.perfil === "ADMIN"
         ) {
             colunaFisioterapeuta.style.display = "";
+            document.getElementById("filtroFisioterapeuta").style.display = "";
+            document.querySelector(".filtros").classList.add("com-fisioterapeuta");
         }
 
     console.log(
@@ -914,6 +938,13 @@ document
         aplicarFiltros
     );
 
+document
+    .getElementById("fisioterapeutaFiltro")
+    .addEventListener(
+        "input",
+        aplicarFiltros
+    );
+
     document
     .getElementById("limparFiltros")
     .addEventListener(
@@ -934,6 +965,10 @@ document
                 .getElementById("presencaFiltro")
                 .value = "";
 
+
+            document
+                .getElementById("fisioterapeutaFiltro")
+                .value = "";
 
             mostrarAtendimentos(
                 atendimentos
@@ -1090,6 +1125,12 @@ document
             .value;
 
 
+    const fisioterapeutaFiltro =
+        usuarioLogado?.perfil === "ADMIN"
+            ? document.getElementById("fisioterapeutaFiltro")
+                .value.trim().toLowerCase()
+            : "";
+
     const resultado =
         atendimentos.filter(
             function(atendimento) {
@@ -1163,13 +1204,20 @@ document
                         === presencaFiltro;
 
 
+                const correspondeFisioterapeuta =
+                    !fisioterapeutaFiltro ||
+                    (atendimento.nome_fisioterapeuta || "")
+                        .toLowerCase().includes(fisioterapeutaFiltro);
+
                 return (
 
                     correspondeTexto &&
 
                     correspondeData &&
 
-                    correspondePresenca
+                    correspondePresenca &&
+
+                    correspondeFisioterapeuta
 
                 );
 
@@ -1212,9 +1260,7 @@ document
                 await resposta.json();
 
 
-            mostrarAtendimentos(
-                atendimentos
-            );
+            aplicarFiltros();
 
 
         } catch (erro) {
@@ -1324,11 +1370,16 @@ document
                 // VALOR
                 // ----------------------------------
 
+                const valorAtendimento =
+                    atendimento.presenca?.toUpperCase() === "DESMARCOU"
+                        ? 0
+                        : atendimento.valor;
+
                 const valor =
-                    atendimento.valor !== null &&
-                    atendimento.valor !== undefined
+                    valorAtendimento !== null &&
+                    valorAtendimento !== undefined
                         ? Number(
-                            atendimento.valor
+                            valorAtendimento
                         ).toLocaleString(
                             "pt-BR",
                             {
@@ -1486,6 +1537,11 @@ document
     const valorTotal =
         lista.reduce(
             function(total, atendimento) {
+
+                // Atendimentos desmarcados não geram receita.
+                if (atendimento.presenca?.toUpperCase() === "DESMARCOU") {
+                    return total;
+                }
 
                 return total +
                     Number(atendimento.valor || 0);

@@ -660,6 +660,15 @@
 
             </div>
 
+            <div style="margin-bottom: 20px;">
+                <button type="button" id="exportarExcel" class="btn-limpar-filtros">
+                    Exportar todos para Excel
+                </button>
+                <p style="color: #94a3b8; margin-top: 8px; font-size: 13px;">
+                    Exporta todos os atendimentos disponíveis para seu perfil, independentemente dos filtros.
+                </p>
+            </div>
+
             <div class="resumo">
 
                 <div class="card-resumo">
@@ -892,6 +901,34 @@
 <script>
 
     protegerPagina();
+
+    document.getElementById("exportarExcel").addEventListener("click", async function() {
+        const botao = this;
+        botao.disabled = true;
+        botao.textContent = "Exportando...";
+        try {
+            const resposta = await fetchAutenticado("/api/atendimentos/exportar");
+            if (!resposta) return;
+            if (!resposta.ok) {
+                const erro = await resposta.json().catch(() => ({}));
+                throw new Error(erro.erro || "Não foi possível exportar os atendimentos.");
+            }
+            const arquivo = await resposta.blob();
+            const url = URL.createObjectURL(arquivo);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = "atendimentos.xlsx";
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+        } catch (erro) {
+            alert(erro.message || "Não foi possível conectar ao servidor.");
+        } finally {
+            botao.disabled = false;
+            botao.textContent = "Exportar todos para Excel";
+        }
+    });
 
     const usuarioLogado =
         getUsuarioLogado();

@@ -8,6 +8,10 @@ router.get(
 );
 
 router.get(
+    "/exportar", authMiddleware, atendimentoController.exportarAtendimentos
+);
+
+router.get(
     "/:id", authMiddleware, atendimentoController.buscarAtendimento
 );
 

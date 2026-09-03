@@ -1,4 +1,18 @@
 const atendimentoService = require("../services/atendimentoService");
+const atendimentoExcelService = require("../services/atendimentoExcelService");
+
+async function exportarAtendimentos(req, res) {
+    try {
+        const arquivo = await atendimentoExcelService.exportarAtendimentos(req.usuario);
+        res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        res.setHeader("Content-Disposition", 'attachment; filename="atendimentos.xlsx"');
+        res.setHeader("Cache-Control", "no-store");
+        res.send(Buffer.from(arquivo));
+    } catch (erro) {
+        console.error("Erro ao exportar atendimentos:", erro);
+        res.status(erro.status || 500).json({ erro: "Não foi possível exportar os atendimentos." });
+    }
+}
 
 // GET /api/atendimentos
 
@@ -212,6 +226,7 @@ async function excluirAtendimento(req, res) {
 }
 
 module.exports = {
+    exportarAtendimentos,
     listarAtendimentos,
     buscarAtendimento,
     cadastrarAtendimento,

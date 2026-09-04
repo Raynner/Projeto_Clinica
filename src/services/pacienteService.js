@@ -62,6 +62,14 @@ async function cadastrarPaciente(dados) {
 }
 
 async function atualizarPaciente(id, dados) {
+    if (typeof dados.nomeResponsavel !== "string" || !dados.nomeResponsavel.trim()) {
+        const erro = new Error("O nome do responsável é obrigatório.");
+        erro.status = 400;
+        throw erro;
+    }
+
+    dados.nomeResponsavel = dados.nomeResponsavel.trim();
+
     if (!/^\d+$/.test(String(id))) {
 
         const erro = new Error("O ID do paciente deve ser numérico.");

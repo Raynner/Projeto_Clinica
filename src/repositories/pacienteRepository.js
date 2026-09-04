@@ -46,11 +46,14 @@ function buscarPorId(id) {
 
         const sql = `
             SELECT
-                paciente_id,
-                nome__completo_paciente,
-                data_nascimento
-            FROM pacientes
-            WHERE paciente_id = ?
+                p.paciente_id,
+                p.nome__completo_paciente,
+                p.data_nascimento,
+                p.id_convenio,
+                r.nome_completo AS nome_responsavel
+            FROM pacientes p
+            INNER JOIN pais r ON p.id_responsavel = r.pais_id
+            WHERE p.paciente_id = ?
         `;
 
         connection.query(
@@ -180,18 +183,21 @@ function atualizar(id, dados) {
     return new Promise((resolve, reject) => {
 
         const {
+            nomeResponsavel,
             nomePaciente,
             dataNascimento,
             idConvenio
         } = dados;
 
         const sql = `
-            UPDATE pacientes
+            UPDATE pacientes p
+            INNER JOIN pais r ON p.id_responsavel = r.pais_id
             SET
-                nome__completo_paciente = ?,
-                data_nascimento = ?,
-                id_convenio = ?
-            WHERE paciente_id = ?
+                p.nome__completo_paciente = ?,
+                p.data_nascimento = ?,
+                p.id_convenio = ?,
+                r.nome_completo = ?
+            WHERE p.paciente_id = ?
         `;
 
         connection.query(
@@ -200,6 +206,7 @@ function atualizar(id, dados) {
                 nomePaciente,
                 dataNascimento,
                 idConvenio,
+                nomeResponsavel,
                 id
             ],
             (err, resultado) => {

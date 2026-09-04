@@ -451,6 +451,13 @@
 
                 <div class="campo-edicao">
 
+                    <label for="editarResponsavel">Nome do responsável</label>
+                    <input type="text" id="editarResponsavel" required>
+
+                </div>
+
+                <div class="campo-edicao">
+
                     <label for="editarConvenio">
                         Convênio
                     </label>
@@ -832,6 +839,9 @@ async function editarPaciente(id) {
         ).value =
             paciente.nome__completo_paciente;
 
+        document.getElementById("editarResponsavel").value =
+            paciente.nome_responsavel || "";
+
 
         document.getElementById(
             "editarData"
@@ -877,6 +887,14 @@ async function editarPaciente(id) {
 }
 
 async function salvarEdicao() {
+
+    const nomeResponsavel =
+        document.getElementById("editarResponsavel").value.trim();
+
+    if (!nomeResponsavel) {
+        alert("O nome do responsável é obrigatório.");
+        return;
+    }
 
     const id =
         document.getElementById(
@@ -934,6 +952,8 @@ async function salvarEdicao() {
     const dados = {
 
         nomePaciente: nome,
+
+        nomeResponsavel,
 
         dataNascimento:
             dataNascimento,

@@ -533,17 +533,21 @@
             transform: translateY(-1px);
         }
 
+        .filtros,
         .filtros.com-fisioterapeuta {
-            grid-template-columns: 2fr 1fr 1fr 2fr auto;
+            width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         }
 
         @media (max-width: 900px) {
+            .filtros,
             .filtros.com-fisioterapeuta {
                 grid-template-columns: 1fr 1fr;
             }
         }
 
         @media (max-width: 600px) {
+            .filtros,
             .filtros.com-fisioterapeuta {
                 grid-template-columns: 1fr;
             }
@@ -609,6 +613,18 @@
 
     </div>
 
+
+    <div class="filtro">
+
+        <label for="periodoFiltro">Período</label>
+        <select id="periodoFiltro">
+            <option value="">Todos os períodos</option>
+            <option value="15">Últimos 15 dias (inclui hoje)</option>
+            <option value="30">Últimos 30 dias (inclui hoje)</option>
+            <option value="mesAnterior">Mês anterior completo</option>
+        </select>
+
+    </div>
 
     <div class="filtro">
 
@@ -968,6 +984,9 @@ document
     );
 
 
+document.getElementById("periodoFiltro")
+    .addEventListener("change", aplicarFiltros);
+
 document
     .getElementById("presencaFiltro")
     .addEventListener(
@@ -1006,6 +1025,8 @@ document
             document
                 .getElementById("fisioterapeutaFiltro")
                 .value = "";
+
+            document.getElementById("periodoFiltro").value = "";
 
             mostrarAtendimentos(
                 atendimentos
@@ -1138,6 +1159,29 @@ document
     let atendimentos = [];
 
 
+    // Usa datas locais para que o dia atual não mude por causa do fuso UTC.
+    function obterLimitesPeriodo(periodo, hoje = new Date()) {
+        if (!periodo) return null;
+
+        const fim = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+        const inicio = new Date(fim);
+
+        if (periodo === "mesAnterior") {
+            inicio.setDate(1);
+            inicio.setMonth(inicio.getMonth() - 1);
+            fim.setDate(0);
+        } else if (periodo === "15" || periodo === "30") {
+            inicio.setDate(inicio.getDate() - (Number(periodo) - 1));
+        } else {
+            return null;
+        }
+
+        const formatar = data =>
+            `${data.getFullYear()}-${String(data.getMonth() + 1).padStart(2, "0")}-${String(data.getDate()).padStart(2, "0")}`;
+
+        return { inicio: formatar(inicio), fim: formatar(fim) };
+    }
+
     // APLICAR FILTROS
 
     function aplicarFiltros() {
@@ -1167,6 +1211,10 @@ document
             ? document.getElementById("fisioterapeutaFiltro")
                 .value.trim().toLowerCase()
             : "";
+
+    const limitesPeriodo = obterLimitesPeriodo(
+        document.getElementById("periodoFiltro").value
+    );
 
     const resultado =
         atendimentos.filter(
@@ -1218,14 +1266,19 @@ document
                 // FILTRO POR DATA
                 // ============================
 
+                const dataAtendimento = atendimento.data_atendimento
+                    ?.toString().substring(0, 10) || "";
+
+                const correspondePeriodo = !limitesPeriodo || (
+                    dataAtendimento >= limitesPeriodo.inicio &&
+                    dataAtendimento <= limitesPeriodo.fim
+                );
+
                 const correspondeData =
 
                     !dataFiltro ||
 
-                    atendimento.data_atendimento
-                        .toString()
-                        .substring(0, 10)
-                        === dataFiltro;
+                    dataAtendimento === dataFiltro;
 
 
                 // ============================
@@ -1251,6 +1304,8 @@ document
                     correspondeTexto &&
 
                     correspondeData &&
+
+                    correspondePeriodo &&
 
                     correspondePresenca &&
 

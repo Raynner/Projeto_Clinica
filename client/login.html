@@ -12,6 +12,10 @@
     <title>Login - Praxis</title>
 
     <style>
+        :root {
+            color-scheme: light;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -30,11 +34,11 @@
             background:
                 linear-gradient(
                     135deg,
-                    #0f172a,
-                    #1e293b
+                    #FDF8F4,
+                    #F3F5ED
                 );
 
-            color: white;
+            color: #2D352B;
         }
 
         .login-container {
@@ -45,7 +49,7 @@
         }
 
         .login-card {
-            background: #1e293b;
+            background: #FFFFFF;
 
             padding: 32px;
 
@@ -53,10 +57,11 @@
 
             box-shadow:
                 0 10px 30px
-                rgba(0, 0, 0, 0.3);
+                rgba(40, 75, 45, 0.10);
         }
 
         .login-card h1 {
+            color: #284B2D;
             text-align: center;
             margin-bottom: 10px;
         }
@@ -64,7 +69,7 @@
         .login-card p {
             text-align: center;
 
-            color: #94a3b8;
+            color: #596451;
 
             margin-bottom: 30px;
         }
@@ -86,21 +91,21 @@
 
             padding: 12px;
 
-            border: 1px solid #334155;
+            border: 1px solid #7A8870;
 
             border-radius: 6px;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 16px;
         }
 
         input:focus {
-            outline: none;
-
-            border-color: #38bdf8;
+            border-color: #284B2D;
+            outline: 2px solid #284B2D;
+            outline-offset: 2px;
         }
 
         button {
@@ -117,17 +122,27 @@
             font-size: 16px;
             font-weight: bold;
 
-            background: #0284c7;
+            background: #284B2D;
 
-            color: white;
+            color: #FFFFFF;
         }
 
         button:hover {
-            background: #0369a1;
+            background: #1E3A22;
+        }
+
+        button:active {
+            background: #162C19;
+        }
+
+        button:focus-visible {
+            outline: 2px solid #284B2D;
+            outline-offset: 2px;
         }
 
         button:disabled {
-            opacity: 0.6;
+            background: #E9EDE3;
+            color: #697260;
             cursor: not-allowed;
         }
 
@@ -140,11 +155,11 @@
         }
 
         .erro {
-            color: #f87171;
+            color: #A33630;
         }
 
         .sucesso {
-            color: #4ade80;
+            color: #365B2D;
         }
     </style>
 </head>
@@ -249,7 +264,8 @@
 
                             headers: {
                                 "Content-Type":
-                                    "application/json"
+                                    "application/json",
+                                "X-Praxis-Request": "1"
                             },
 
                             body: JSON.stringify({
@@ -269,7 +285,10 @@
                         );
                     }
 
-                    salvarToken(dados.token);
+                    // O cookie HttpOnly é recebido automaticamente; não armazena token no JS.
+                    // Um POST bem-sucedido não basta: confirma compatibilidade e cookie
+                    // para não redirecionar ao login com os campos vazios em caso de falha.
+                    const sessao = await confirmarSessaoLogin();
 
                     mensagem.textContent =
                         "Login realizado com sucesso.";
@@ -278,7 +297,7 @@
                         "sucesso";
 
                     window.location.href =
-                        "/index.html";
+                        sessao.trocarSenha ? "/senha.html" : "/index.html";
 
                 } catch (erro) {
 

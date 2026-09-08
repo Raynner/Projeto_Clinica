@@ -126,27 +126,27 @@ function cadastrar (usuario) {
 
 // ATUALIZAR STATUS
 
-function atualizarStatus(id, ativo) {
-    return new Promise((resolve, reject) => {
-        const sql = `
-            UPDATE usuarios
-            SET ativo = ?
-            WHERE usuario_id = ?
-        `;
-
-        connection.query(sql, [ativo, id], (err, resultado) => {
-            if (err) {
-                reject(err);
-                return;
-            }
-
-            resolve(resultado);
-        });
-    });
+async function atualizarStatus(id, ativo) {
+    const conn = await connection.promise().getConnection();
+    try {
+        await conn.beginTransaction();
+        const [resultado] = await conn.execute('UPDATE usuarios SET ativo = ? WHERE usuario_id = ?', [ativo, id]);
+        // Bloquear e reativar não ressuscita cookies antigos: revoga todas as sessões.
+        await conn.execute('DELETE FROM auth_sessions WHERE usuario_id = ?', [id]);
+        await conn.commit();
+        return resultado;
+    } catch (erro) { await conn.rollback(); throw erro; }
+    finally { conn.release(); }
+}
+async function buscarCredenciaisPorId(id) {
+    // Uso exclusivo de autenticação; este método nunca é retornado por controllers de usuários.
+    const [rows] = await connection.promise().execute('SELECT usuario_id, senha FROM usuarios WHERE usuario_id = ?', [id]);
+    return rows[0] || null;
 }
 
 module.exports = {
     buscarPorEmail,
+    buscarCredenciaisPorId,
     buscarPorId,
     cadastrar,
     buscarTodos,

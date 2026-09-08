@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { validarSenha } = require("./passwordPolicy");
 
 const usuarioRepository = require("../repositories/usuarioRepository");
 
@@ -9,7 +10,10 @@ async function listarUsuarios() {
 }
 
 async function cadastrarUsuario(dados) {
-    const { nome, email, senha } = dados;
+    // Cadastro e login usam a mesma normalização de identidade.
+    const nome = typeof dados.nome === 'string' ? dados.nome.trim() : '';
+    const email = typeof dados.email === 'string' ? dados.email.trim().toLowerCase() : '';
+    const { senha } = dados;
 
     //VALIDAÇÃO
 
@@ -21,13 +25,14 @@ async function cadastrarUsuario(dados) {
         throw erro;
     }
 
-    if (senha.length < 6) {
-
-        const erro = new Error("A senha deve possuir pelo menos 6 caracteres.");
-
+    if (nome.length > 255 || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        const erro = new Error('Informe nome e email válidos.');
         erro.status = 400;
         throw erro;
     }
+
+    // A política é obrigatória no servidor; o HTML é apenas uma ajuda ao usuário.
+    validarSenha(senha);
 
     // VERIFICAR SE EMAIL JÁ EXISTE
 
@@ -42,7 +47,7 @@ async function cadastrarUsuario(dados) {
 
     // GERAR HASH DA SENHA
 
-    const senhaHash = await bcrypt.hash(senha, 10);
+    const senhaHash = await bcrypt.hash(senha, 12);
 
 
     //CADASTRAR

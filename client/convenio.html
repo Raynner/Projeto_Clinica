@@ -17,6 +17,8 @@
     >
 
     <style>
+        :root { color-scheme: light; }
+
         * {
             margin: 0;
             padding: 0;
@@ -30,11 +32,10 @@
             background:
                 linear-gradient(
                     135deg,
-                    #0f172a,
-                    #1e293b
+                    #FDF8F4, #F3F5ED
                 );
 
-            color: white;
+            color: #2D352B;
         }
 
         main {
@@ -55,11 +56,11 @@
 
         .form-card {
             background:
-                rgba(255, 255, 255, 0.07);
+                #FFFFFF;
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.12);
+                #D6DDCE;
 
             border-radius: 20px;
 
@@ -67,7 +68,7 @@
 
             box-shadow:
                 0 20px 50px
-                rgba(0, 0, 0, 0.3);
+                rgba(40, 75, 45, 0.10);
 
             backdrop-filter: blur(10px);
         }
@@ -82,11 +83,11 @@
 
             margin-bottom: 10px;
 
-            color: #38bdf8;
+            color: #284B2D;
         }
 
         .header-form p {
-            color: #94a3b8;
+            color: #596451;
             font-size: 15px;
         }
 
@@ -102,7 +103,7 @@
             font-size: 15px;
             font-weight: bold;
 
-            color: #e2e8f0;
+            color: #2D352B;
         }
 
         .form-group input {
@@ -113,11 +114,11 @@
             border-radius: 10px;
 
             border:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 16px;
 
@@ -127,15 +128,15 @@
         }
 
         .form-group input:focus {
-            border-color: #38bdf8;
+            border-color: #284B2D;
 
             box-shadow:
                 0 0 0 3px
-                rgba(56, 189, 248, 0.15);
+                rgba(40, 75, 45, 0.15);
         }
 
         .form-group input::placeholder {
-            color: #64748b;
+            color: #697260;
         }
 
         .buttons {
@@ -164,12 +165,12 @@
         }
 
         .btn-cadastrar {
-            background: #38bdf8;
-            color: #0f172a;
+            background: #284B2D;
+            color: #FFFFFF;
         }
 
         .btn-cadastrar:hover {
-            background: #0ea5e9;
+            background: #1E3A22;
             transform: translateY(-2px);
         }
 
@@ -180,12 +181,12 @@
         }
 
         .btn-limpar {
-            background: #334155;
-            color: white;
+            background: #EDF3E3;
+            color: #2D352B;
         }
 
         .btn-limpar:hover {
-            background: #475569;
+            background: #D6DDCE;
             transform: translateY(-2px);
         }
 
@@ -205,22 +206,22 @@
             display: block !important;
 
             background:
-                rgba(34, 197, 94, 0.15);
+                #EDF3E3;
 
-            border: 1px solid #22c55e;
+            border: 1px solid #365B2D;
 
-            color: #4ade80;
+            color: #365B2D;
         }
 
         .erro {
             display: block !important;
 
             background:
-                rgba(239, 68, 68, 0.15);
+                #FDEDE8;
 
-            border: 1px solid #ef4444;
+            border: 1px solid #A33630;
 
-            color: #f87171;
+            color: #A33630;
         }
 
         @media (max-width: 600px) {
@@ -333,7 +334,9 @@
     <script src="/js/navbar.js"></script>
 
     <script>
-        protegerPagina();
+(async function iniciarPagina() {
+    // Aguarda autenticação no servidor; o navegador não decodifica mais JWTs.
+        if (!await protegerPagina()) return;
 
         const formulario =
             document.getElementById(
@@ -482,7 +485,11 @@
                 mensagem.className = "";
             }
         );
-    </script>
+
+    // Compatibilidade com os botões estáticos já presentes no HTML.
+
+})().catch(() => { window.location.href = "/login.html"; });
+</script>
 
 </body>
 

@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/css/navbar.css">
 
     <style>
+        :root { color-scheme: light; }
+
 
         * {
             margin: 0;
@@ -29,11 +31,10 @@
             background:
                 linear-gradient(
                     135deg,
-                    #0f172a,
-                    #1e293b
+                    #FDF8F4, #F3F5ED
                 );
 
-            color: white;
+            color: #2D352B;
         }
 
         .container {
@@ -47,10 +48,10 @@
 
         .card {
             background:
-                rgba(255,255,255,0.07);
+                #FFFFFF;
 
             border:
-                1px solid rgba(255,255,255,0.12);
+                1px solid #D6DDCE;
 
             border-radius: 20px;
 
@@ -58,7 +59,7 @@
 
             box-shadow:
                 0 20px 50px
-                rgba(0,0,0,0.3);
+                rgba(40, 75, 45, 0.10);
 
             overflow-x: auto;
         }
@@ -68,12 +69,12 @@
         }
 
         .header-page h1 {
-            color: #38bdf8;
+            color: #284B2D;
             margin-bottom: 10px;
         }
 
         .header-page p {
-            color: #94a3b8;
+            color: #596451;
         }
 
         .barra {
@@ -92,11 +93,11 @@
             border-radius: 10px;
 
             border:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 16px;
 
@@ -104,7 +105,7 @@
         }
 
         #buscar:focus {
-            border-color: #38bdf8;
+            border-color: #284B2D;
         }
 
         table {
@@ -117,18 +118,18 @@
 
             padding: 15px;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: #38bdf8;
+            color: #284B2D;
         }
 
         td {
             padding: 15px;
 
             border-bottom:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            color: #e2e8f0;
+            color: #2D352B;
         }
 
         .form-edicao {
@@ -138,13 +139,13 @@
 
             border-radius: 15px;
 
-            background: rgba(255,255,255,0.05);
+            background: #F3F5ED;
 
-            border: 1px solid #334155;
+            border: 1px solid #7A8870;
         }
 
         .form-edicao h2 {
-            color: #38bdf8;
+            color: #284B2D;
 
             margin-bottom: 20px;
         }
@@ -158,7 +159,7 @@
 
             margin-bottom: 8px;
 
-            color: #e2e8f0;
+            color: #2D352B;
 
             font-weight: bold;
         }
@@ -170,11 +171,11 @@
 
             border-radius: 8px;
 
-            border: 1px solid #334155;
+            border: 1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 16px;
         }
@@ -186,11 +187,11 @@
 
             border-radius: 8px;
 
-            border: 1px solid #334155;
+            border: 1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 16px;
 
@@ -198,17 +199,17 @@
         }
 
         .campo-edicao select:focus {
-            border-color: #38bdf8;
+            border-color: #284B2D;
 
             box-shadow:
                 0 0 0 3px
-                rgba(56,189,248,0.15);
+                rgba(40, 75, 45, 0.15);
         }
 
         .campo-edicao select option {
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
         }
 
         .botoes-edicao {
@@ -220,15 +221,15 @@
         }
 
         .btn-salvar {
-            background: #22c55e;
+            background: #365B2D;
 
-            color: white;
+            color: #FFFFFF;
         }
 
         .btn-cancelar {
-            background: #334155;
+            background: #EDF3E3;
 
-            color: white;
+            color: #2D352B;
         }
 
         .btn-salvar,
@@ -245,11 +246,11 @@
         }
 
         .btn-salvar:hover {
-            background: #16a34a;
+            background: #284B2D;
         }
 
         .btn-cancelar:hover {
-            background: #475569;
+            background: #D6DDCE;
         }
 
         .acoes {
@@ -273,23 +274,23 @@
         }
 
         .btn-editar {
-            background: #38bdf8;
-            color: #0f172a;
+            background: #284B2D;
+            color: #FFFFFF;
         }
 
         .btn-editar:hover {
-            background: #0ea5e9;
+            background: #1E3A22;
             transform: translateY(-1px);
         }
 
         .btn-excluir:hover {
-            background: #dc2626;
+            background: #862B26;
             transform: translateY(-1px);
         }
 
         tr:hover {
             background:
-                rgba(255,255,255,0.04);
+                #F3F5ED;
         }
 
         .mensagem {
@@ -297,7 +298,7 @@
 
             padding: 25px;
 
-            color: #94a3b8;
+            color: #596451;
         }
 
         .btn-excluir {
@@ -307,9 +308,9 @@
 
             border-radius: 8px;
 
-            background: #ef4444;
+            background: #A33630;
 
-            color: white;
+            color: #FFFFFF;
 
             font-weight: bold;
 
@@ -324,9 +325,9 @@
             padding: 30px;
 
             border-top:
-                1px solid rgba(255,255,255,0.1);
+                1px solid #D6DDCE;
 
-            color: #94a3b8;
+            color: #596451;
 
             margin-top: 80px;
         }
@@ -531,8 +532,10 @@
 <script src="/js/navbar.js"></script>
 
 <script>
+(async function iniciarPagina() {
+    // Aguarda autenticação no servidor; o navegador não decodifica mais JWTs.
 
-    protegerPagina();
+    if (!await protegerPagina()) return;
 
     const tabela =
         document.getElementById(
@@ -656,48 +659,35 @@
                     : "";
 
 
-            linha.innerHTML = `
+            // Dados do banco são texto, nunca HTML: protege inclusive cadastros
+            // antigos que contenham tags ou atributos maliciosos armazenados.
+            for (const valor of [
+                paciente.paciente_id,
+                paciente.nome__completo_paciente,
+                data,
+                paciente.nome_responsavel,
+                paciente.nome_convenio
+            ]) {
+                const celula = document.createElement("td");
+                celula.textContent = String(valor ?? "");
+                linha.appendChild(celula);
+            }
 
-                <td>
-                    ${paciente.paciente_id}
-                </td>
-
-                <td>
-                    ${paciente.nome__completo_paciente}
-                </td>
-
-                <td>
-                    ${data}
-                </td>
-
-                <td>
-                    ${paciente.nome_responsavel}
-                </td>
-
-                <td>
-                    ${paciente.nome_convenio}
-                </td>
-
-                <td class="acoes">
-
-                    <button
-                        class="btn-editar"
-                        onclick="editarPaciente(${paciente.paciente_id})"
-                    >
-                        Editar
-                    </button>
-
-                    <button
-                        class="btn-excluir"
-                        onclick="excluirPaciente(${paciente.paciente_id})"
-                    >
-                        Excluir
-                    </button>
-
-                </td>
-
-            `;
-
+            const acoes = document.createElement("td");
+            acoes.className = "acoes";
+            // Listeners recebem o ID como dado; ele não é interpolado em onclick.
+            for (const [rotulo, classe, executar] of [
+                ["Editar", "btn-editar", editarPaciente],
+                ["Excluir", "btn-excluir", excluirPaciente]
+            ]) {
+                const botao = document.createElement("button");
+                botao.type = "button";
+                botao.className = classe;
+                botao.textContent = rotulo;
+                botao.addEventListener("click", () => executar(paciente.paciente_id));
+                acoes.appendChild(botao);
+            }
+            linha.appendChild(acoes);
 
             tabela.appendChild(linha);
 
@@ -1156,6 +1146,10 @@ function cancelarEdicao() {
 
     carregarPacientes();
 
+
+    // Compatibilidade com os botões estáticos já presentes no HTML.
+    Object.assign(window, { salvarEdicao, cancelarEdicao });
+})().catch(() => { window.location.href = "/login.html"; });
 </script>
 </body>
 

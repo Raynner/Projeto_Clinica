@@ -17,6 +17,8 @@
     >
 
     <style>
+        :root { color-scheme: light; }
+
         * {
             margin: 0;
             padding: 0;
@@ -30,11 +32,10 @@
             background:
                 linear-gradient(
                     135deg,
-                    #0f172a,
-                    #1e293b
+                    #FDF8F4, #F3F5ED
                 );
 
-            color: white;
+            color: #2D352B;
         }
 
         .container {
@@ -48,11 +49,11 @@
 
         .card {
             background:
-                rgba(255, 255, 255, 0.07);
+                #FFFFFF;
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.12);
+                #D6DDCE;
 
             border-radius: 20px;
 
@@ -60,7 +61,7 @@
 
             box-shadow:
                 0 20px 50px
-                rgba(0, 0, 0, 0.3);
+                rgba(40, 75, 45, 0.10);
 
             backdrop-filter: blur(10px);
         }
@@ -76,13 +77,13 @@
         }
 
         .header-page h1 {
-            color: #38bdf8;
+            color: #284B2D;
 
             margin-bottom: 8px;
         }
 
         .header-page p {
-            color: #94a3b8;
+            color: #596451;
         }
 
         .btn-novo {
@@ -91,8 +92,8 @@
             border: none;
             border-radius: 9px;
 
-            background: #38bdf8;
-            color: #0f172a;
+            background: #284B2D;
+            color: #FFFFFF;
 
             font-size: 14px;
             font-weight: bold;
@@ -105,7 +106,7 @@
         }
 
         .btn-novo:hover {
-            background: #0ea5e9;
+            background: #1E3A22;
 
             transform:
                 translateY(-1px);
@@ -127,11 +128,11 @@
             border-radius: 10px;
 
             border:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 15px;
 
@@ -139,11 +140,11 @@
         }
 
         #buscar:focus {
-            border-color: #38bdf8;
+            border-color: #284B2D;
 
             box-shadow:
                 0 0 0 3px
-                rgba(56, 189, 248, 0.15);
+                rgba(40, 75, 45, 0.15);
         }
 
         .tabela-container {
@@ -164,9 +165,9 @@
 
             padding: 14px;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: #38bdf8;
+            color: #284B2D;
 
             font-size: 14px;
         }
@@ -175,16 +176,16 @@
             padding: 14px;
 
             border-bottom:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            color: #e2e8f0;
+            color: #2D352B;
 
             font-size: 14px;
         }
 
         tbody tr:hover {
             background:
-                rgba(255, 255, 255, 0.04);
+                #F3F5ED;
         }
 
         .status {
@@ -200,24 +201,24 @@
 
         .status-ativo {
             background:
-                rgba(34, 197, 94, 0.15);
+                #EDF3E3;
 
-            color: #4ade80;
+            color: #365B2D;
 
             border:
                 1px solid
-                rgba(34, 197, 94, 0.35);
+                #9AB860;
         }
 
         .status-inativo {
             background:
-                rgba(239, 68, 68, 0.15);
+                #FDEDE8;
 
-            color: #f87171;
+            color: #A33630;
 
             border:
                 1px solid
-                rgba(239, 68, 68, 0.35);
+                #A33630;
         }
 
         .perfil {
@@ -228,9 +229,9 @@
             border-radius: 6px;
 
             background:
-                rgba(56, 189, 248, 0.12);
+                rgba(40, 75, 45, 0.15);
 
-            color: #38bdf8;
+            color: #284B2D;
 
             font-size: 11px;
             font-weight: bold;
@@ -256,42 +257,42 @@
 
         .btn-desativar {
             background:
-                rgba(239, 68, 68, 0.16);
+                #FDEDE8;
 
-            color: #f87171;
+            color: #A33630;
 
             border:
                 1px solid
-                rgba(239, 68, 68, 0.35);
+                #A33630;
         }
 
         .btn-desativar:hover {
-            background: #ef4444;
+            background: #A33630;
 
-            color: white;
+            color: #FFFFFF;
         }
 
         .btn-ativar {
             background:
-                rgba(34, 197, 94, 0.16);
+                #EDF3E3;
 
-            color: #4ade80;
+            color: #365B2D;
 
             border:
                 1px solid
-                rgba(34, 197, 94, 0.35);
+                #9AB860;
         }
 
         .btn-ativar:hover {
-            background: #22c55e;
+            background: #1E3A22;
 
-            color: white;
+            color: #FFFFFF;
         }
 
         .mensagem-tabela {
             text-align: center;
 
-            color: #94a3b8;
+            color: #596451;
 
             padding: 28px;
         }
@@ -306,7 +307,7 @@
             z-index: 1000;
 
             background:
-                rgba(0, 0, 0, 0.72);
+                rgba(22, 44, 25, 0.48);
 
             align-items: center;
             justify-content: center;
@@ -322,11 +323,11 @@
             width: 100%;
             max-width: 520px;
 
-            background: #1e293b;
+            background: #FFFFFF;
 
             border:
                 1px solid
-                rgba(255, 255, 255, 0.12);
+                #D6DDCE;
 
             border-radius: 16px;
 
@@ -334,7 +335,7 @@
 
             box-shadow:
                 0 20px 50px
-                rgba(0, 0, 0, 0.5);
+                rgba(40, 75, 45, 0.16);
         }
 
         .modal-header {
@@ -348,7 +349,7 @@
         }
 
         .modal-header h2 {
-            color: #38bdf8;
+            color: #284B2D;
         }
 
         .btn-fechar {
@@ -360,7 +361,7 @@
 
             background: transparent;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 27px;
 
@@ -368,7 +369,7 @@
         }
 
         .btn-fechar:hover {
-            background: #334155;
+            background: #EDF3E3;
         }
 
         .form-group {
@@ -380,7 +381,7 @@
 
             margin-bottom: 8px;
 
-            color: #e2e8f0;
+            color: #2D352B;
 
             font-size: 14px;
             font-weight: bold;
@@ -394,11 +395,11 @@
             border-radius: 9px;
 
             border:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 15px;
 
@@ -406,19 +407,19 @@
         }
 
         .form-group input:focus {
-            border-color: #38bdf8;
+            border-color: #284B2D;
 
             box-shadow:
                 0 0 0 3px
-                rgba(56, 189, 248, 0.15);
+                rgba(40, 75, 45, 0.15);
         }
 
         .form-group input::placeholder {
-            color: #64748b;
+            color: #697260;
         }
 
         .form-observacao {
-            color: #94a3b8;
+            color: #596451;
 
             font-size: 12px;
             line-height: 1.5;
@@ -451,12 +452,12 @@
         }
 
         .btn-cadastrar {
-            background: #38bdf8;
-            color: #0f172a;
+            background: #284B2D;
+            color: #FFFFFF;
         }
 
         .btn-cadastrar:hover {
-            background: #0ea5e9;
+            background: #1E3A22;
         }
 
         .btn-cadastrar:disabled {
@@ -465,12 +466,12 @@
         }
 
         .btn-cancelar {
-            background: #334155;
-            color: white;
+            background: #EDF3E3;
+            color: #2D352B;
         }
 
         .btn-cancelar:hover {
-            background: #475569;
+            background: #D6DDCE;
         }
 
         #mensagemCadastro {
@@ -490,24 +491,24 @@
             display: block !important;
 
             background:
-                rgba(34, 197, 94, 0.15);
+                #EDF3E3;
 
             border:
-                1px solid #22c55e;
+                1px solid #365B2D;
 
-            color: #4ade80;
+            color: #365B2D;
         }
 
         .erro {
             display: block !important;
 
             background:
-                rgba(239, 68, 68, 0.15);
+                #FDEDE8;
 
             border:
-                1px solid #ef4444;
+                1px solid #A33630;
 
-            color: #f87171;
+            color: #A33630;
         }
 
         footer {
@@ -517,9 +518,9 @@
 
             border-top:
                 1px solid
-                rgba(255, 255, 255, 0.1);
+                #D6DDCE;
 
-            color: #94a3b8;
+            color: #596451;
 
             margin-top: 80px;
         }
@@ -717,7 +718,8 @@
                         name="senha"
                         placeholder="Digite a senha inicial"
                         autocomplete="new-password"
-                        minlength="6"
+                        minlength="15"
+                        maxlength="72"
                         required
                     >
 
@@ -773,8 +775,10 @@
     <script src="/js/navbar.js"></script>
 
     <script>
+(async function iniciarPagina() {
+    // Aguarda autenticação no servidor; o navegador não decodifica mais JWTs.
 
-        protegerPagina();
+        if (!await protegerPagina()) return;
 
 
         // ==========================================
@@ -988,7 +992,7 @@
                         acaoHtml = `
                             <span
                                 style="
-                                    color: #94a3b8;
+                                    color: #596451;
                                     font-size: 12px;
                                 "
                             >
@@ -1448,7 +1452,11 @@
 
         carregarUsuarios();
 
-    </script>
+
+    // Compatibilidade com os botões estáticos já presentes no HTML.
+    Object.assign(window, { alterarStatusUsuario });
+})().catch(() => { window.location.href = "/login.html"; });
+</script>
 
 </body>
 

@@ -2,7 +2,9 @@
 // NAVBAR DO SISTEMA
 // ==========================================
 
-function carregarNavbar() {
+async function carregarNavbar() {
+    // A identidade vem de /api/auth/me, não de dados locais editáveis.
+    if (!await protegerPagina()) return;
 
     const navbarContainer =
         document.getElementById("navbar");
@@ -59,12 +61,12 @@ function carregarNavbar() {
     // MENU ADMIN
     // ==========================================
 
-    let menuAdmin = "";
+    let menuAdmin = '<a href="/senha.html">Alterar senha</a>';
 
 
     if (usuario.perfil === "ADMIN") {
 
-        menuAdmin = `
+        menuAdmin += `
             <a
                 href="/usuarios.html"
                 class="

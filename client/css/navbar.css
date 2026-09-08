@@ -1,10 +1,10 @@
 .navbar {
     width: 100%;
 
-    background: rgba(15, 23, 42, 0.95);
+    background: rgba(255, 255, 255, 0.95);
 
     border-bottom:
-        1px solid rgba(255, 255, 255, 0.08);
+        1px solid #D6DDCE;
 
     backdrop-filter: blur(12px);
 
@@ -33,7 +33,7 @@
 }
 
 .navbar-logo {
-    color: #38bdf8;
+    color: #284B2D;
 
     text-decoration: none;
 
@@ -59,7 +59,7 @@
 
     border-radius: 8px;
 
-    color: #cbd5e1;
+    color: #596451;
 
     text-decoration: none;
 
@@ -70,16 +70,16 @@
 
 .navbar-menu a:hover {
     background:
-        rgba(56, 189, 248, 0.08);
+        rgba(40, 75, 45, 0.15);
 
-    color: #38bdf8;
+    color: #284B2D;
 }
 
 .navbar-menu a.ativo {
     background:
-        rgba(56, 189, 248, 0.15);
+        rgba(40, 75, 45, 0.15);
 
-    color: #38bdf8;
+    color: #284B2D;
 
     font-weight: bold;
 }
@@ -105,20 +105,20 @@
 }
 
 .navbar-nome {
-    color: #e2e8f0;
+    color: #2D352B;
 
     font-size: 13px;
     font-weight: bold;
 }
 
 .navbar-perfil {
-    color: #38bdf8;
+    color: #284B2D;
 
     font-size: 10px;
     font-weight: bold;
 
     background:
-        rgba(56, 189, 248, 0.12);
+        rgba(40, 75, 45, 0.15);
 
     padding: 3px 7px;
 
@@ -129,14 +129,14 @@
     padding: 8px 12px;
 
     border: 1px solid
-        rgba(239, 68, 68, 0.4);
+        #A33630;
 
     border-radius: 7px;
 
     background:
-        rgba(239, 68, 68, 0.12);
+        #FDEDE8;
 
-    color: #f87171;
+    color: #A33630;
 
     font-size: 13px;
     font-weight: bold;
@@ -147,9 +147,9 @@
 }
 
 .navbar-logout:hover {
-    background: #ef4444;
+    background: #A33630;
 
-    color: white;
+    color: #FFFFFF;
 }
 
 @media (max-width: 1000px) {

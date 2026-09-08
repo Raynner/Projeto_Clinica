@@ -18,6 +18,8 @@ const notFound = require("./middlewares/notFound");
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
+// HTTPS, origem e proteção CSRF são verificados antes dos parsers e das rotas.
+require('./middlewares/transportSecurity')(app);
 
 // MIDDLEWARES
 

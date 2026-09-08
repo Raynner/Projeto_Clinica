@@ -72,110 +72,25 @@ function buscarPorId(id) {
     });
 }
 
-function cadastrar(dados){
-
-    return new Promise((resolve, reject) => {
-
-        const {
-            nomeResponsavel,
-            telefone,
-            endereco,
-            nomePaciente,
-            dataNascimento,
-            idConvenio
-        } = dados;
-
-        connection.beginTransaction((err) => {
-
-            if (err) {
-                reject(err);
-                return;
-            }
-
-            // 1. CADASTRO RESPONSÁVEL
-
-            const sqlResponsavel = `
-                INSERT INTO pais
-                (
-                    nome_completo,
-                    telefone,
-                    endereco
-                )
-                VALUES (?, ?, ?)
-            `;
-
-            connection.query(
-                sqlResponsavel,
-                [
-                    nomeResponsavel,
-                    telefone,
-                    endereco
-                ],
-                (err, resultadoResponsavel) => {
-
-                    if (err) {
-
-                        return connection.rollback(() => {
-                            reject(err);
-                        });
-                    }
-
-                    const responsavelId = resultadoResponsavel.insertId;
-
-                    // 2. CADASTRO PACIENTE
-
-                    const sqlPaciente = `
-                        INSERT INTO pacientes
-                        (
-                            nome__completo_paciente,
-                            data_nascimento,
-                            id_responsavel,
-                            id_convenio  
-                        )
-                        VALUES (?, ?, ?, ?)
-                    `;
-
-                    connection.query(
-                        sqlPaciente,
-                        [
-                            nomePaciente,
-                            dataNascimento,
-                            responsavelId,
-                            idConvenio
-                        ],
-                        (err, resultadoPaciente) => {
-
-                            if (err) {
-
-                                return connection.rollback(() => {
-                                    reject(err);
-                                });
-                            }
-
-                            const pacienteId = resultadoPaciente.insertId;
-
-                            // 3. CONFIRMAR TRANSAÇÃO
-
-                            connection.commit((err) => {
-
-                                if (err) {
-
-                                    return connection.rollback(() => {
-                                        reject(err);
-                                    });
-                                }
-
-                                resolve({
-                                    paciente_id: pacienteId,
-                                    responsavel_id: responsavelId
-                                });
-                            });
-                        }
-                    );
-                }
-            );
-        });
-    });
+async function cadastrar(dados) {
+    // A transação reserva uma conexão do pool, isolada do login e de outros cadastros.
+    const conn = await connection.promise().getConnection();
+    try {
+        await conn.beginTransaction();
+        const [responsavel] = await conn.execute(
+            'INSERT INTO pais (nome_completo, telefone, endereco) VALUES (?, ?, ?)',
+            [dados.nomeResponsavel, dados.telefone ?? null, dados.endereco ?? null]
+        );
+        const [paciente] = await conn.execute(
+            'INSERT INTO pacientes (nome__completo_paciente, data_nascimento, id_responsavel, id_convenio) VALUES (?, ?, ?, ?)',
+            [dados.nomePaciente, dados.dataNascimento, responsavel.insertId, dados.idConvenio]
+        );
+        await conn.commit();
+        return { paciente_id: paciente.insertId, responsavel_id: responsavel.insertId };
+    } catch (erro) {
+        await conn.rollback();
+        throw erro;
+    } finally { conn.release(); }
 }
 
 function atualizar(id, dados) {

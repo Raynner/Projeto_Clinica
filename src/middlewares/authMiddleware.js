@@ -1,79 +1,29 @@
-const jwt = require("jsonwebtoken");
-const usuarioRepository = require("../repositories/usuarioRepository");
-
-async function autenticarToken(req, res, next) {
-    try {
-        const authHeader = req.headers.authorization;
-
-        if (!authHeader) {
-            return res.status(401).json({
-                erro: "Token não fornecido."
-            });
-        }
-
-        const partes = authHeader.split(" ");
-
-        if (
-            partes.length !== 2 ||
-            partes[0] !== "Bearer"
-        ) {
-            return res.status(401).json({
-                erro: "Token inválido."
-            });
-        }
-
-        const token = partes[1];
-
-        const usuarioToken = jwt.verify(
-            token,
-            process.env.JWT_SECRET
-        );
-
-        const usuarioAtual =
-            await usuarioRepository.buscarPorId(
-                usuarioToken.usuario_id
-            );
-
-        if (!usuarioAtual) {
-            return res.status(401).json({
-                erro: "Usuário não encontrado."
-            });
-        }
-
-        if (!usuarioAtual.ativo) {
-            return res.status(403).json({
-                erro: "Usuário inativo."
-            });
-        }
-
-        req.usuario = {
-            usuario_id: usuarioAtual.usuario_id,
-            nome: usuarioAtual.nome,
-            email: usuarioAtual.email,
-            perfil: usuarioAtual.perfil
-        };
-
-        next();
-
-    } catch (erro) {
-        if (erro.name === "TokenExpiredError") {
-            return res.status(401).json({
-                erro: "Token expirado."
-            });
-        }
-
-        if (erro.name === "JsonWebTokenError") {
-            return res.status(401).json({
-                erro: "Token inválido."
-            });
-        }
-
-        console.error("Erro na autenticação:", erro);
-
-        return res.status(500).json({
-            erro: "Erro interno do servidor."
-        });
-    }
+const sessions = require('../repositories/sessionRepository');
+const { configuracao } = require('../config/security');
+function lerToken(req) {
+    const nome = configuracao().cookieName;
+    const cookies = (req.headers.cookie || '').split(';').map(x => x.trim());
+    const encontrados = cookies.filter(x => x.startsWith(nome + '='));
+    // Não aceita JWT legado nem cookies duplicados/ambíguos.
+    if (encontrados.length !== 1) return null;
+    const token = encontrados[0].slice(nome.length + 1);
+    return /^[A-Za-z0-9_-]{43}$/.test(token) ? token : null;
 }
-
-module.exports = autenticarToken;
+async function autenticar(req, res, next) {
+    try {
+        const token = lerToken(req);
+        const sessao = token ? await sessions.buscar(token) : null;
+        if (!sessao) return res.status(401).json({ erro: 'Sessão inválida ou expirada.' });
+        if (!sessao.ativo) return res.status(403).json({ erro: 'Usuário inativo.' });
+        if (!['ADMIN', 'FISIOTERAPEUTA'].includes(sessao.perfil)) return res.status(403).json({ erro: 'Acesso não autorizado.' });
+        req.usuario = { usuario_id: sessao.usuario_id, nome: sessao.nome, email: sessao.email, perfil: sessao.perfil };
+        req.sessao = { token, trocarSenha: Boolean(sessao.trocar_senha) };
+        // Senhas legadas fracas só permitem consultar a sessão, trocar senha e sair.
+        if (req.sessao.trocarSenha && !['/api/auth/me', '/api/auth/senha', '/api/auth/logout'].includes(req.originalUrl.split('?')[0])) {
+            return res.status(403).json({ erro: 'Atualize sua senha para continuar.', codigo: 'TROCAR_SENHA' });
+        }
+        next();
+    } catch (erro) { next(erro); }
+}
+module.exports = autenticar;
+module.exports.lerToken = lerToken;

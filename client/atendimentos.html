@@ -15,6 +15,8 @@
     <link rel="stylesheet" href="/css/navbar.css">
 
     <style>
+        :root { color-scheme: light; }
+
 
         * {
             margin: 0;
@@ -29,11 +31,10 @@
             background:
                 linear-gradient(
                     135deg,
-                    #0f172a,
-                    #1e293b
+                    #FDF8F4, #F3F5ED
                 );
 
-            color: white;
+            color: #2D352B;
         }
 
         .container {
@@ -47,10 +48,10 @@
 
         .card {
             background:
-                rgba(255,255,255,0.07);
+                #FFFFFF;
 
             border:
-                1px solid rgba(255,255,255,0.12);
+                1px solid #D6DDCE;
 
             border-radius: 20px;
 
@@ -58,7 +59,7 @@
 
             box-shadow:
                 0 20px 50px
-                rgba(0,0,0,0.3);
+                rgba(40, 75, 45, 0.10);
 
             overflow-x: auto;
         }
@@ -68,12 +69,12 @@
         }
 
         .header-page h1 {
-            color: #38bdf8;
+            color: #284B2D;
             margin-bottom: 10px;
         }
 
         .header-page p {
-            color: #94a3b8;
+            color: #596451;
         }
 
         .barra {
@@ -92,11 +93,11 @@
             border-radius: 10px;
 
             border:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 16px;
 
@@ -104,7 +105,7 @@
         }
 
         #buscar:focus {
-            border-color: #38bdf8;
+            border-color: #284B2D;
         }
 
         table {
@@ -117,23 +118,23 @@
 
             padding: 15px;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: #38bdf8;
+            color: #284B2D;
         }
 
         td {
             padding: 15px;
 
             border-bottom:
-                1px solid #334155;
+                1px solid #7A8870;
 
-            color: #e2e8f0;
+            color: #2D352B;
         }
 
         tr:hover {
             background:
-                rgba(255,255,255,0.04);
+                #F3F5ED;
         }
 
         .mensagem {
@@ -141,7 +142,7 @@
 
             padding: 25px;
 
-            color: #94a3b8;
+            color: #596451;
         }
 
         footer {
@@ -150,9 +151,9 @@
             padding: 30px;
 
             border-top:
-                1px solid rgba(255,255,255,0.1);
+                1px solid #D6DDCE;
 
-            color: #94a3b8;
+            color: #596451;
 
             margin-top: 80px;
         }
@@ -244,7 +245,7 @@
 
             font-weight: bold;
 
-            color: #cbd5e1;
+            color: #596451;
         }
 
 
@@ -257,11 +258,11 @@
 
             border-radius: 8px;
 
-            border: 1px solid #334155;
+            border: 1px solid #7A8870;
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 14px;
 
@@ -272,19 +273,19 @@
         .filtro input:focus,
         .filtro select:focus {
 
-            border-color: #38bdf8;
+            border-color: #284B2D;
 
             box-shadow:
                 0 0 0 3px
-                rgba(56,189,248,0.15);
+                rgba(40, 75, 45, 0.15);
         }
 
 
         .filtro select option {
 
-            background: #0f172a;
+            background: #FFFFFF;
 
-            color: white;
+            color: #2D352B;
         }
 
 
@@ -296,9 +297,9 @@
 
             border-radius: 8px;
 
-            background: #334155;
+            background: #EDF3E3;
 
-            color: white;
+            color: #2D352B;
 
             font-weight: bold;
 
@@ -312,7 +313,7 @@
 
         .btn-limpar-filtros:hover {
 
-            background: #475569;
+            background: #D6DDCE;
 
             transform: translateY(-1px);
         }
@@ -330,9 +331,9 @@
 
 
         .card-resumo {
-            background: rgba(255, 255, 255, 0.07);
+            background: #FFFFFF;
 
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid #D6DDCE;
 
             border-radius: 12px;
 
@@ -351,7 +352,7 @@
 
 
         .card-resumo span {
-            color: #94a3b8;
+            color: #596451;
 
             font-size: 13px;
 
@@ -360,7 +361,7 @@
 
 
         .card-resumo strong {
-            color: #38bdf8;
+            color: #284B2D;
 
             font-size: 25px;
         }
@@ -372,9 +373,9 @@
 
 
         .btn-excluir {
-            background: #ef4444;
+            background: #A33630;
 
-            color: white;
+            color: #FFFFFF;
 
             border: none;
 
@@ -393,7 +394,7 @@
 
 
         .btn-excluir:hover {
-            background: #dc2626;
+            background: #862B26;
 
             transform: translateY(-1px);
         }
@@ -411,7 +412,7 @@
             width: 100%;
             height: 100%;
 
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(22, 44, 25, 0.48);
 
             align-items: center;
             justify-content: center;
@@ -429,9 +430,9 @@
             width: 100%;
             max-width: 550px;
 
-            background: #1e293b;
+            background: #FFFFFF;
 
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid #D6DDCE;
 
             border-radius: 16px;
 
@@ -439,7 +440,7 @@
 
             box-shadow:
                 0 20px 50px
-                rgba(0,0,0,0.5);
+                rgba(40, 75, 45, 0.16);
         }
 
 
@@ -455,7 +456,7 @@
 
 
         .modal-header h2 {
-            color: #38bdf8;
+            color: #284B2D;
         }
 
 
@@ -469,7 +470,7 @@
 
             background: transparent;
 
-            color: white;
+            color: #2D352B;
 
             font-size: 28px;
 
@@ -478,7 +479,7 @@
 
 
         .btn-fechar:hover {
-            background: #334155;
+            background: #EDF3E3;
         }
 
 
@@ -492,22 +493,22 @@
 
 
         .btn-salvar-edicao {
-            background: #38bdf8;
+            background: #284B2D;
 
-            color: #0f172a;
+            color: #FFFFFF;
         }
 
 
         .btn-cancelar {
-            background: #334155;
+            background: #EDF3E3;
 
-            color: white;
+            color: #2D352B;
         }
 
         .btn-editar {
-            background: #38bdf8;
+            background: #284B2D;
 
-            color: #0f172a;
+            color: #FFFFFF;
 
             border: none;
 
@@ -528,7 +529,7 @@
 
 
         .btn-editar:hover {
-            background: #0ea5e9;
+            background: #1E3A22;
 
             transform: translateY(-1px);
         }
@@ -680,7 +681,7 @@
                 <button type="button" id="exportarExcel" class="btn-limpar-filtros">
                     Exportar todos para Excel
                 </button>
-                <p style="color: #94a3b8; margin-top: 8px; font-size: 13px;">
+                <p style="color: #596451; margin-top: 8px; font-size: 13px;">
                     Exporta todos os atendimentos disponíveis para seu perfil, independentemente dos filtros.
                 </p>
             </div>
@@ -915,8 +916,10 @@
 <script src="/js/navbar.js"></script>
 
 <script>
+(async function iniciarPagina() {
+    // Aguarda autenticação no servidor; o navegador não decodifica mais JWTs.
 
-    protegerPagina();
+    if (!await protegerPagina()) return;
 
     document.getElementById("exportarExcel").addEventListener("click", async function() {
         const botao = this;
@@ -962,11 +965,8 @@
             document.getElementById("filtroFisioterapeuta").style.display = "";
             document.querySelector(".filtros").classList.add("com-fisioterapeuta");
         }
+    // Dados pessoais da sessão não são enviados ao console.
 
-    console.log(
-        "Usuário logado:",
-        usuarioLogado
-    );
 
     document
     .getElementById("buscar")
@@ -1481,99 +1481,50 @@ document
                         )
                         : "";
 
-                        let colunaUsuario = "";
+                // Todos os campos vindos da API são inseridos como texto.
+                // Isso evita XSS persistente também em registros já armazenados.
+                const valores = [
+                    data,
+                    horario,
+                    atendimento.nome__completo_paciente,
+                    atendimento.nome_completo,
+                    atendimento.nome_convenio,
+                    atendimento.presenca,
+                    valor
+                ];
+                if (usuarioLogado?.perfil === "ADMIN") {
+                    valores.push(atendimento.nome_fisioterapeuta || "-");
+                }
+                for (const conteudo of valores) {
+                    const celula = document.createElement("td");
+                    celula.textContent = String(conteudo ?? "");
+                    linha.appendChild(celula);
+                }
 
-                        if (
-                            usuarioLogado &&
-                            usuarioLogado.perfil === "ADMIN"
-                        ) {
-
-                            colunaUsuario = `
-                                <td>
-                                    ${
-                                        atendimento.nome_fisioterapeuta ||
-                                        "-"
-                                    }
-                                </td>
-                            `;
-                        }
-
-                        const podeAlterar =
-                            usuarioLogado &&
-                            Number(atendimento.usuario_id) ===
-                            Number(usuarioLogado.usuario_id);
-
-                        let botoesAcoes = "";
-
-                        if (podeAlterar) {
-
-                            botoesAcoes = `
-                                <button
-                                    type="button"
-                                    class="btn-editar"
-                                    onclick="abrirEdicao(${atendimento.atendimento_id})"
-                                >
-                                    Editar
-                                </button>
-
-                                <button
-                                    type="button"
-                                    class="btn-excluir"
-                                    onclick="excluirAtendimento(${atendimento.atendimento_id})"
-                                >
-                                    Excluir
-                                </button>
-                            `;
-
-                        } else {
-
-                            botoesAcoes = `
-                                <span style="color: #94a3b8;">
-                                    Somente leitura
-                                </span>
-                            `;
-                        }
-
-                linha.innerHTML = `
-
-                    <td>
-                        ${data}
-                    </td>
-
-                    <td>
-                        ${horario}
-                    </td>
-
-                    <td>
-                        ${atendimento.nome__completo_paciente}
-                    </td>
-
-                    <td>
-                        ${atendimento.nome_completo}
-                    </td>
-
-                    <td>
-                        ${atendimento.nome_convenio}
-                    </td>
-
-                    <td>
-                        ${atendimento.presenca}
-                    </td>
-
-                    <td>
-                        ${valor}
-                    </td>
-
-                    ${colunaUsuario}
-
-                     <td class="acoes">
-
-                        ${botoesAcoes}
-
-                    </td>
-
-                `;
-
+                const acoes = document.createElement("td");
+                acoes.className = "acoes";
+                const podeAlterar = usuarioLogado &&
+                    Number(atendimento.usuario_id) === Number(usuarioLogado.usuario_id);
+                if (podeAlterar) {
+                    // O ID é passado ao listener como dado, sem gerar código HTML.
+                    for (const [rotulo, classe, executar] of [
+                        ["Editar", "btn-editar", abrirEdicao],
+                        ["Excluir", "btn-excluir", excluirAtendimento]
+                    ]) {
+                        const botao = document.createElement("button");
+                        botao.type = "button";
+                        botao.className = classe;
+                        botao.textContent = rotulo;
+                        botao.addEventListener("click", () => executar(atendimento.atendimento_id));
+                        acoes.appendChild(botao);
+                    }
+                } else {
+                    const aviso = document.createElement("span");
+                    aviso.style.color = "#596451";
+                    aviso.textContent = "Somente leitura";
+                    acoes.appendChild(aviso);
+                }
+                linha.appendChild(acoes);
 
                 tabela.appendChild(
                     linha
@@ -1906,6 +1857,10 @@ function fecharModal() {
 
     carregarAtendimentos();
 
+
+    // Compatibilidade com os botões estáticos já presentes no HTML.
+    Object.assign(window, { fecharModal });
+})().catch(() => { window.location.href = "/login.html"; });
 </script>
 </body>
 

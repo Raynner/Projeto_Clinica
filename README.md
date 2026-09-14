@@ -149,6 +149,29 @@ Os testes verificam autenticação, sessões, permissões, proteção das rotas,
 - documentar a API com OpenAPI/Swagger;
 - adicionar integração contínua com GitHub Actions.
 
+
+  ## Demonstração
+
+### Tela de login
+
+![Tela de login do Projeto Clínica](docs/images/image.png)
+
+### Cadastro de atendimento
+
+![Tela de cadastro de atendimento](docs/images/cadastro_atendimento.png)
+
+### Listagem de atendimentos
+
+![Tela de listagem de atendimentos](docs/images/atendimentos.png)
+
+### Cadastro de pacientes
+
+![Tela de cadastro de pacientes](docs/images/cadastro_pacientes.png)
+
+### Gerenciamento de usuários
+
+![Tela de gerenciamento de usuários](docs/images/usuarios.png)
+
 ## Autor
 
 Desenvolvido por **Ariel Raynner**.

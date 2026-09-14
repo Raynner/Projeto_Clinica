@@ -158,26 +158,26 @@ Os testes verificam autenticação, sessões, permissões, proteção das rotas,
 
 ### Cadastro de atendimento
 
-![Tela de cadastro de atendimento](docs/images/cadastro_atendimento.png)
+![Tela de cadastro de atendimento](./REDME/docs/images/cadastro_atendimento.png)
 
 ### Listagem de atendimentos
 
-![Tela de listagem de atendimentos](docs/images/atendimentos.png)
+![Tela de listagem de atendimentos](./REDME/docs/images/atendimentos.png)
 
 ### Cadastro de pacientes
 
-![Tela de cadastro de pacientes](docs/images/cadastro_pacientes.png)
+![Tela de cadastro de pacientes](./REDME/docs/images/cadastro_pacientes.png)
 
 ### Gerenciamento de usuários
 
-![Tela de gerenciamento de usuários](docs/images/usuarios.png)
+![Tela de gerenciamento de usuários](./REDME/docs/images/usuarios.png)
 
 ## Autor
 
 Desenvolvido por **Ariel Raynner**.
 
 - GitHub: [@Raynner](https://github.com/Raynner)
-- LinkedIn: [Ariel Raynner] (https://www.linkedin.com/in/ariel-raynner-995506370/)
+- LinkedIn: [Ariel Raynner](https://www.linkedin.com/in/ariel-raynner-995506370/)
 
 ## Aviso
 

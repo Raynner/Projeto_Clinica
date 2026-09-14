@@ -141,13 +141,6 @@ Os testes verificam autenticação, sessões, permissões, proteção das rotas,
 | `GET /api/usuarios` | Lista usuários para o administrador |
 | `POST /api/usuarios` | Cadastra um usuário |
 
-## Demonstração
-
-1. login; ![Tela de login do Projeto Clínica](./docs/images/image.png)
-2. cadastro de atendimento; ![Tela de cadastro de atendimento](./docs/images/cadastro_atendimento.png)
-3. listagem de atendimentos; ![Tela de listagem de atendimentos](./docs/images/atendimentos.png)
-4. cadastro de pacientes; ![Tela de cadastro de pacientes](./docs/images/cadastro_pacientes.png)
-5. gerenciamento de usuários. ![Tela de gerenciamento de usuários](./docs/images/usuarios.png)
    
 
 ## Próximas melhorias

@@ -154,7 +154,7 @@ Os testes verificam autenticação, sessões, permissões, proteção das rotas,
 
 ### Tela de login
 
-![Tela de login do Projeto Clínica](docs/images/image.png)
+![Tela de login do Projeto Clínica](./REDME/docs/images/image.png)
 
 ### Cadastro de atendimento
 

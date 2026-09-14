@@ -1,4 +1,4 @@
-[README_ATUALIZADO.MD](https://github.com/user-attachments/files/32194725/README_ATUALIZADO.MD)
+
 # Projeto Clínica — Praxis
 
 Sistema web para gerenciamento de pacientes, convênios, usuários e atendimentos de uma clínica. A aplicação reúne front-end, API REST e banco de dados relacional, com autenticação segura e controle de acesso baseado no perfil do usuário.

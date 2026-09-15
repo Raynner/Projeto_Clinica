@@ -65,7 +65,6 @@ Os pacientes e convênios são compartilhados entre os profissionais. Cada atend
 - exigência de HTTPS e TLS para conexões remotas em produção;
 - controle de autorização realizado no servidor.
 
-Mais detalhes estão disponíveis em [`docs/SEGURANCA-FASE-2.md`](docs/SEGURANCA-FASE-2.md).
 
 ## Arquitetura
 
